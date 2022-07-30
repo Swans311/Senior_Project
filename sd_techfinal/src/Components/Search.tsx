@@ -2,6 +2,18 @@ import React from "react";
 import Select from 'react-select';
 
 class Search extends React.Component<any, any> {
+    constructor(props:any){
+        super(props);
+        this.state = {
+            company:'',
+            value:'',
+            isLoggedIn:'',
+            userError:'',
+            isSubmit:false,
+            emailError:'',
+            passError:'',
+        }
+    };
 
     render() {
         const companies = [
@@ -13,25 +25,38 @@ class Search extends React.Component<any, any> {
 
 
         return (
-            <form style={{ backgroundColor: 'white', padding: '20%' }}>
-                <div>
-                    <label style={{ color: 'black' }}>Enter Company Here</label>
-                    <input type={'text'} placeholder={'text'} />
-                </div>
-                <div>
-                    <label style={{ color: 'black' }}>Something Here</label>
-                    <input type={'number'} placeholder={'Select a Number'} />
-                </div>
-                <div>
-                    <label style={{ color: 'black' }}>Password</label>
-                    <input type={'password'} placeholder={'Password'} />
-                </div>
-                <div>
-                    <label>Company Name</label><p />
-                    <Select value={companies} options={companies} />
-                </div>
-                <input type={'submit'} />
-            </form>
+            <div>
+                <form>
+                    <div className={'form-group'}>
+                        <label style={{ color: 'black' }}>Major</label><p/>
+                        <input type={'text'} placeholder={'Major'} />
+                    </div>
+                    <p>Placeholder for error</p>
+                    <div className={'form-group'}>
+                        <label style={{ color: 'black' }}>Value</label><p/>
+                        <input type={'number'} placeholder={'Scholarship Value'} />
+                    </div>
+                    <p>placeholder for error</p>
+                    <div className={'form-group'}>
+                        <label style={{ color: 'black' }}>Min GPA</label><p/>
+                        <input type={'text'} placeholder={'Min GPA'} />
+                    </div>
+                    <p>Placeholder for error</p>
+                    <div className={'form-group'}>
+                        <label>Company Name</label><p />
+                        <select>
+                        {companies.map(obj => 
+                        <option key={obj.value} value={obj.value} >
+                            {obj.label}
+                            </option>)}
+                        </select>
+                    </div>
+                    <p>Placeholder for error</p>
+                    <p/>
+                    <input type={'submit'} className={'btn btn-primary'} />
+                </form>
+            </div>
+            
         );
     }
 
