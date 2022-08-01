@@ -1,5 +1,7 @@
+import { userInfo } from "os";
 import React from "react";
 import Select from 'react-select';
+import studentUser from "./StudentUser";
 
 class Search extends React.Component<any, any> {
     constructor(props:any){
@@ -23,9 +25,10 @@ class Search extends React.Component<any, any> {
             { value: 'Netflix', label: 'Netflix' },
         ]
 
-
+        
         return (
             <div>
+                {studentUser.getIsLoggedIn() ?(<h1>Hello Student</h1>) : (<h1>Hi</h1>)}
                 <form>
                     <div className={'form-group'}>
                         <label style={{ color: 'black' }}>Major</label><p/>

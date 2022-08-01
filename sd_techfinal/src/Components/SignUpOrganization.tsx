@@ -1,26 +1,29 @@
 import React from "react";
 import * as ReactDOM from "react-dom/client";
 import Search from './Search'
-import studentUser from './StudentUser'
-import { StudentUser } from "../model/StudentUser";
+import organizationUser from "./OrganizationUser";
+import { OrganizationUser } from "../model/OrganizationUser";
 
-class SignUpStudent extends React.Component <any, any> {
+
+class OrganizationSignUp extends React.Component <any, any> {
     constructor(props:any){
         super(props);
         this.state = {
             email:'',
-            fname:'',
-            lname:'',
+            acname:'',
+            oname:'',
+            taxID:'',
             password:'',
             repassword:'',
             isLoggedIn:'',
             userError:'',
             isSubmit:false,
-            emailError:'Email Required',
+            emailError:'',
             passError:'',
             repassError:'',
-            fnameError:'First Name Required',
-            lnameError:'Last Name Required',
+            acnameError:'Account Manager Name Req.',
+            onameError:'Organization Name Req.',
+            taxError:'Tax-ID must be 9 digits',
         }
     };
 
@@ -37,12 +40,16 @@ class SignUpStudent extends React.Component <any, any> {
                 this.setState({'password':value})
                 validateInstant(values)
             }
-            if(name==='fname'){
-                this.setState({'fname':value})
+            if(name==='acname'){
+                this.setState({'acname':value})
                 validateInstant(values)
             }
-            if(name==='lname'){
-                this.setState({'lname':value})
+            if(name==='oname'){
+                this.setState({'oname':value})
+                validateInstant(values)
+            }
+            if(name==='taxID'){
+                this.setState({'taxID':value})
                 validateInstant(values)
             }
             if(name==='repassword'){
@@ -53,25 +60,34 @@ class SignUpStudent extends React.Component <any, any> {
 
         const validateInstant = (values:{name:string, value:string}) =>{
             let regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-            if(values.name === 'fname'){
-                if(values.value !== ''){
-                    this.setState({'fnameError':''})
+            if(values.name === 'acname'){
+                if(values.value.length > 5){
+                    this.setState({'acnameError':''})
                 }
                 else{
-                    this.setState({'fnameError':'First Name Must be entered'})
+                    this.setState({'acnameError':'Account Manager Name Req.'})
                     return
                 }
             }
-            if(values.name === 'lname'){
+            if(values.name === 'oname'){
                 if(values.value !== ''){
-                    this.setState({'lnameError':''})
+                    this.setState({'onameError':''})
                 }
                 else{
-                    this.setState({'lnameError':'Last Name Must be entered'})
+                    this.setState({'onameError':'Organization Name Req.'})
                     return
                 }
             }
-            
+            if(values.name === 'taxID'){
+                values.value = values.value.replace(/-/g, '')
+                if(values.value.length !== 9){
+                    this.setState({'taxError':'Tax ID format not correct'})
+                }
+                else{
+                    this.setState({'taxError':''})
+                    return
+                }
+            }
             if (values.name === 'email'){
                 if(values.value.match(regexp)){
                     this.setState({'emailError':''})
@@ -113,14 +129,14 @@ class SignUpStudent extends React.Component <any, any> {
             if(validateSubmit(state)) {
                 this.setState({isSubmit:true})
                 //this currently redirects to the search page.
-                let newStudent : StudentUser = {
-                    fname:this.state.fname,
-                    lname: this.state.lname,
-                    email: this.state.email,
-                    password: this.state.password,
-                    isLoggedIn : true
-                }
-                studentUser.setStudent(newStudent)
+                // let newStudent : StudentUser = {
+                //     fname:this.state.fname,
+                //     lname: this.state.lname,
+                //     email: this.state.email,
+                //     password: this.state.password,
+                //     isLoggedIn : true
+                // }
+                // studentUser.setStudent(newStudent)
                 validateLogin()
             }
         }
@@ -177,19 +193,24 @@ class SignUpStudent extends React.Component <any, any> {
 
         return(
             <div>
-                <h1>Student Sign Up</h1>
+                <h1>Login</h1>
                 <div id={'content'}></div>
                 <form>
                     <div className={'form-group'}>
-                        <label>First Name:</label>
-                        <input type={'text'} className={'form-control'} placeholder={'First Name'} name={'fname'} onChange={handleChange}/>
+                        <label>Account Manager Name:</label>
+                        <input type={'text'} className={'form-control'} placeholder={'Name'} name={'acname'} onChange={handleChange}/>
                     </div>
-                    <p>{this.state.fnameError}</p>
+                    <p>{this.state.acnameError}</p>
                     <div className={'form-group'}>
-                        <label>Last Name:</label>
-                        <input type={'text'} className={'form-control'} placeholder={'Last Name'} name={'lname'} onChange={handleChange}/>
+                        <label>Organization Name:</label>
+                        <input type={'text'} className={'form-control'} placeholder={'Organization Name'} name={'oname'} onChange={handleChange}/>
                     </div>
-                    <p>{this.state.lnameError}</p>
+                    <p>{this.state.onameError}</p>
+                    <div className={'form-group'}>
+                        <label>Tax ID:</label>
+                        <input type={'text'} className={'form-control'} placeholder={'xxx-xx-xxxx'} name={'taxID'} onChange={handleChange}/>
+                    </div>
+                    <p>{this.state.taxError}</p>
                     <div className={'form-group'}>
                         <label>Email:</label>
                         <input type={'email'} className={'form-control'} placeholder={'email@email.com'} name={'email'} onChange={handleChange}/>
@@ -212,4 +233,4 @@ class SignUpStudent extends React.Component <any, any> {
     }
 }
 
-export default SignUpStudent
+export default OrganizationSignUp

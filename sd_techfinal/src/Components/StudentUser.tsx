@@ -41,6 +41,10 @@ const studentUser = (function () {
         return studentUser.lname;
     }
 
+    const setIsLoggedIn =() =>{
+        studentUser.isLoggedIn = !studentUser.isLoggedIn;
+    }
+
     const getEmail = () =>{
         return studentUser.email;
     }
@@ -53,6 +57,7 @@ const studentUser = (function () {
         getName: getName,
         logout:logout,
         setStudent : setStudent,
+        setIsLoggedIn : setIsLoggedIn,
     }
 
 
