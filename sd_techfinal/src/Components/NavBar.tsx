@@ -21,11 +21,12 @@ class SDNav extends React.Component <any, any> {
             <div >
                 <nav className="navbar navbar-dark bg-dark justify-content-between" style={{width:'100%', borderTopRightRadius:'5px', borderTopLeftRadius:'5px'}}>
                     <a className="navbar-brand">Navbar</a>
-                    <form className="form-inline">
-                        <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-                        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                    </nav>
+                    <div>
+                        <input type='text' placeholder="Search" style={{width:'75%'}}/>
+                        <button type='submit' style={{width:'25%'}} className={'btn btn-outline-success'}>Search </button>
+                    </div>
+                    <button className={'btn btn-primary'} style={{marginRight:'2%'}}>Login</button>
+                </nav>
             </div>
         )
     }
