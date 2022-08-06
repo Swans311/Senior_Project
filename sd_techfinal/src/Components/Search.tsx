@@ -1,6 +1,7 @@
 import { userInfo } from "os";
 import React from "react";
 import Select from 'react-select';
+import SDNav from "./NavBar";
 import studentUser from "./StudentUser";
 
 class Search extends React.Component<any, any> {
@@ -27,25 +28,26 @@ class Search extends React.Component<any, any> {
 
         
         return (
-            <div>
-                {studentUser.getIsLoggedIn() ?(<h1>Hello Student</h1>) : (<h1>Hi</h1>)}
+            <div className={'directory2'}>
+                <SDNav/>
                 <form>
-                    <div className={'form-group'}>
+                {studentUser.getIsLoggedIn() ?(<h1>Hello Student</h1>) : (<h1>Search</h1>)}
+                    <div className={'form-group'} >
                         <label style={{ color: 'black' }}>Major</label><p/>
                         <input type={'text'} placeholder={'Major'} />
+                        <p>Placeholder for error</p>
                     </div>
-                    <p>Placeholder for error</p>
-                    <div className={'form-group'}>
+                    <div className={'form-group'} >
                         <label style={{ color: 'black' }}>Value</label><p/>
                         <input type={'number'} placeholder={'Scholarship Value'} />
+                        <p>placeholder for error</p>
                     </div>
-                    <p>placeholder for error</p>
-                    <div className={'form-group'}>
+                    <div className={'form-group'} >
                         <label style={{ color: 'black' }}>Min GPA</label><p/>
                         <input type={'text'} placeholder={'Min GPA'} />
+                        <p>Placeholder for error</p>
                     </div>
-                    <p>Placeholder for error</p>
-                    <div className={'form-group'}>
+                    <div className={'form-group'} >
                         <label>Company Name</label><p />
                         <select>
                         {companies.map(obj => 
@@ -53,10 +55,12 @@ class Search extends React.Component<any, any> {
                             {obj.label}
                             </option>)}
                         </select>
+                        <p>Placeholder for error</p>
                     </div>
-                    <p>Placeholder for error</p>
-                    <p/>
-                    <input type={'submit'} className={'btn btn-primary'} />
+                    <div style={{height:'60px', clear:'both', width:'100%'}}>
+                    <p />
+                    </div>
+                    <input type={'submit'} className={'btn btn-primary'} style={{margin:'auto'}} />
                 </form>
             </div>
             

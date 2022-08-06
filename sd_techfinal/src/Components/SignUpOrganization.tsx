@@ -83,6 +83,10 @@ class OrganizationSignUp extends React.Component <any, any> {
                 if(values.value.length !== 9){
                     this.setState({'taxError':'Tax ID format not correct'})
                 }
+                else if(parseInt(values.value).toString().length !== 9 ){ //checks for any letters in the string
+                    this.setState({'taxError':values.value+' is not a valid number'})
+
+                }
                 else{
                     this.setState({'taxError':''})
                     return
@@ -119,14 +123,8 @@ class OrganizationSignUp extends React.Component <any, any> {
 
         const handleSubmit = (e:{preventDefault : () => void; }) => {
             e.preventDefault();
-            let state = {
-                email:this.state.email,
-                password:this.state.password,
-                fname:this.state.fname,
-                lname:this.state.lname,
-                repass:this.state.repassword,
-            }
-            if(validateSubmit(state)) {
+            
+            if(validateSubmit()) {
                 this.setState({isSubmit:true})
                 //this currently redirects to the search page.
                 // let newStudent : StudentUser = {
@@ -158,32 +156,9 @@ class OrganizationSignUp extends React.Component <any, any> {
             }
         }
 
-        const validateSubmit = (values:{email:string; password:string; fname:string, lname:string, repass:string}) =>{
-            let regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-            if(values.email.length>0 && values.password.length>0){
-                if(values.email.match(regexp)){
-                    this.setState({'emailError':''})
-                }
-                else{
-                    this.setState({'emailError':'Email Invalid'})
-                }
-                
-                if(values.password.length>=6){
-                    this.setState({'passError':''})
-                }
-                else{
-                    this.setState({'passError':'Password Length Requirement not met'})
-                }
-                if(values.password !== values.repass){
-                    console.log(values.password)
-                    console.log(values.repass)
-                    this.setState({'passError':'Passwords do not match', 'repassError':'Passwords do not match'})
-                }
-                else{
-                    this.setState({'passError':'', 'repassError':''})
-                }
-            }
-            if(this.state.emailError==='' && this.state.passError===''&&this.state.fnameError==='' && this.state.lnameError==='' && this.state.repassError===''){
+        const validateSubmit = () =>{
+            
+            if(this.state.emailError==='' && this.state.passError===''&&this.state.acnameError==='' && this.state.onameError==='' && this.state.taxError==='' && this.state.repassError==''){
                 return true;
             }
             //all other instances return false
@@ -192,8 +167,8 @@ class OrganizationSignUp extends React.Component <any, any> {
         }
 
         return(
-            <div>
-                <h1>Login</h1>
+            <div className={'directory2'}>
+                <h1>Create Organization Account</h1>
                 <div id={'content'}></div>
                 <form>
                     <div className={'form-group'}>
