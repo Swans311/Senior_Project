@@ -1,8 +1,7 @@
-import { userInfo } from "os";
 import React from "react";
 import Select from 'react-select';
-import SDNav from "./NavBar";
 import studentUser from "./StudentUser";
+import User from "./User";
 
 class Search extends React.Component<any, any> {
     constructor(props:any){
@@ -29,26 +28,25 @@ class Search extends React.Component<any, any> {
         
         return (
             <div className={'directory2'}>
-                <SDNav/>
                 <form>
-                {studentUser.getIsLoggedIn() ?(<h1>Hello Student</h1>) : (<h1>Search</h1>)}
+                {User.getIsLoggedIn() ?(<h1>Hello Student</h1>) : (<h1>Search</h1>)}
                     <div className={'form-group'} >
-                        <label style={{ color: 'black' }}>Major</label><p/>
+                        <label style={{ color: 'black' }}>Major</label><br/>
                         <input type={'text'} placeholder={'Major'} />
                         <p>Placeholder for error</p>
                     </div>
                     <div className={'form-group'} >
-                        <label style={{ color: 'black' }}>Value</label><p/>
+                        <label style={{ color: 'black' }}>Value</label><br/>
                         <input type={'number'} placeholder={'Scholarship Value'} />
                         <p>placeholder for error</p>
                     </div>
                     <div className={'form-group'} >
-                        <label style={{ color: 'black' }}>Min GPA</label><p/>
+                        <label style={{ color: 'black' }}>Min GPA</label><br/>
                         <input type={'text'} placeholder={'Min GPA'} />
                         <p>Placeholder for error</p>
                     </div>
                     <div className={'form-group'} >
-                        <label>Company Name</label><p />
+                        <label>Company Name</label><br />
                         <select>
                         {companies.map(obj => 
                         <option key={obj.value} value={obj.value} >
@@ -58,7 +56,7 @@ class Search extends React.Component<any, any> {
                         <p>Placeholder for error</p>
                     </div>
                     <div style={{height:'60px', clear:'both', width:'100%'}}>
-                    <p />
+                    <br />
                     </div>
                     <input type={'submit'} className={'btn btn-primary'} style={{margin:'auto'}} />
                 </form>
