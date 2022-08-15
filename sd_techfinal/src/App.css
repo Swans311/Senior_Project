@@ -48,6 +48,7 @@
 
 .container {
     display: flex !important;
+    overflow-y:auto;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -74,6 +75,7 @@
     height: 30%;
     border-radius: 5px;
     background: #fff;
+    padding:5%;
 }
 
 .directory2 {

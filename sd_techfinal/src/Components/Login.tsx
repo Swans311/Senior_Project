@@ -1,6 +1,7 @@
 import React from "react";
 import * as ReactDOM from "react-dom/client";
 import Search from './Search'
+import SignUpStudent from "./SignUpStudent";
 import studentUser from "./StudentUser";
 
 class Login extends React.Component <any, any> {
@@ -83,6 +84,16 @@ class Login extends React.Component <any, any> {
             }
         }
 
+        const signUp = () => {
+            const dir = document.getElementById('directory') as HTMLElement;
+            const content = ReactDOM.createRoot(dir);
+            content.render(<SignUpStudent/>)
+            const dir2 = document.getElementById('directory2') as HTMLElement;
+            if(dir2){
+                dir2.style.display='none'
+            }
+        }
+
         const validateSubmit = (values:{email:string; password:string;}) =>{
             let regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
             if(values.email.length>0 && values.password.length>0){
@@ -110,9 +121,9 @@ class Login extends React.Component <any, any> {
 
 
         return(
-            <div>
+            <div className={'directory2'} >
                 <h1>Login</h1>
-                <div id={'content'}></div>
+                <div id={'content'}>
                 <form>
                     <div className={'form-group'}>
                         <label>Email:</label>
@@ -126,6 +137,8 @@ class Login extends React.Component <any, any> {
                     <p>{this.state.passError}</p>
                     <button type={'submit'} className={'btn btn-primary'} id={'login'} onClick={handleSubmit}>Login</button>
                 </form>
+                <a href='#' onClick={signUp}>No Account? Sign up Here.</a>
+                </div>
             </div>
         )
     }

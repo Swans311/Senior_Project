@@ -3,7 +3,7 @@ import Select from 'react-select';
 import studentUser from "./StudentUser";
 import User from "./User";
 
-class Search extends React.Component<any, any> {
+class Search extends React.Component<any, any, {param:any}> {
     constructor(props:any){
         super(props);
         this.state = {
@@ -38,7 +38,7 @@ class Search extends React.Component<any, any> {
                     <div className={'form-group'} >
                         <label style={{ color: 'black' }}>Value</label><br/>
                         <input type={'number'} placeholder={'Scholarship Value'} />
-                        <p>placeholder for error</p>
+                        <p>Placeholder for error</p>
                     </div>
                     <div className={'form-group'} >
                         <label style={{ color: 'black' }}>Min GPA</label><br/>

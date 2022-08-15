@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom/client";
 import Search from './Search'
 import organizationUser from "./OrganizationUser";
 import { OrganizationUser } from "../model/OrganizationUser";
+import SignUpStudent from "./SignUpStudent";
 
 
 class OrganizationSignUp extends React.Component <any, any> {
@@ -156,6 +157,17 @@ class OrganizationSignUp extends React.Component <any, any> {
             }
         }
 
+        const signUp = () => {
+            //probably just have this lead to the actual home page again?
+            const dir = document.getElementById('directory') as HTMLElement;
+            const content = ReactDOM.createRoot(dir);
+            content.render(<SignUpStudent/>)
+            const dir2 = document.getElementById('directory2') as HTMLElement;
+            if(dir2){
+                dir2.style.display='none'
+            }
+        }
+
         const validateSubmit = () =>{
             
             if(this.state.emailError==='' && this.state.passError===''&&this.state.acnameError==='' && this.state.onameError==='' && this.state.taxError==='' && this.state.repassError==''){
@@ -203,6 +215,7 @@ class OrganizationSignUp extends React.Component <any, any> {
                     <p>{this.state.repassError}</p>
                     <button type={'submit'} className={'btn btn-primary'} id={'login'} onClick={handleSubmit}>Login</button>
                 </form>
+                <a href='#' onClick={signUp}>Not an Organization? Student sign up here</a>
             </div>
         )
     }
