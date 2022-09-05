@@ -2,6 +2,15 @@ import { user } from "../model/user";
 
 const User = (function () {
 
+    let anyUser:any = {};
+    const setAnyUser = (any:any) => {
+        anyUser=any;
+    }
+    const getAnyUser = () =>{
+        return anyUser;
+    }
+    let isLoggedIn:boolean = false;
+
     let User: user = {
         name:'',
         email:'',
@@ -24,10 +33,11 @@ const User = (function () {
         User.email = '';
         User.password = '';
         User.isLoggedIn = false;
+        anyUser = null;
     }
 
     const getIsLoggedIn = () =>{
-        return User.isLoggedIn;
+        return isLoggedIn;
     }
 
     const getAccountType = () =>{
@@ -39,8 +49,8 @@ const User = (function () {
     }
 
 
-    const setIsLoggedIn =() =>{
-        User.isLoggedIn = !User.isLoggedIn;
+    const setIsLoggedIn = (torf:boolean) =>{
+        isLoggedIn = torf;
     }
 
     const getEmail = () =>{
@@ -55,6 +65,8 @@ const User = (function () {
         logout:logout,
         setUser : setUser,
         setIsLoggedIn : setIsLoggedIn,
+        setAnyUser : setAnyUser,
+        getAnyUser : getAnyUser,
     }
 
 

@@ -10,12 +10,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 function App() {
     return (
         <div className={'bodyApp'} style={{width:'100%',height:'150%'}}>
-            <SDNav/>
-            <div className="container">
-                <div className='directory' id='directory'>
-                    <Search/>
-                    
-                </div>
+            <div className="container" id='directory'>
+                <Search/>
             </div>
         </div>
         

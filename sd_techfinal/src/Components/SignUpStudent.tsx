@@ -4,6 +4,8 @@ import Search from './Search'
 import studentUser from './StudentUser'
 import { StudentUser } from "../model/StudentUser";
 import OrganizationSignUp from "./SignUpOrganization";
+import apis from "../api";
+import User from "./User";
 
 class SignUpStudent extends React.Component <any, any> {
     constructor(props:any){
@@ -121,13 +123,68 @@ class SignUpStudent extends React.Component <any, any> {
                     password: this.state.password,
                     isLoggedIn : true
                 }
-                studentUser.setStudent(newStudent)
-                validateLogin()
+                validateLogin(newStudent)
             }
         }
 
-        const validateLogin = () => {
-            directory()
+        const validateLogin = async (studentUser:any) => {
+            let usefulData:any;
+            let student ={
+                'email':studentUser.email,
+                'password':studentUser.password,
+                'userType':'student',
+            }
+            //the below API call creates the general user.
+            await fetch('http://localhost:8080/api/user', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify(student)
+            }).then(res => res.json())
+            .then(res => {
+                console.log(res);
+                usefulData = {'id':res.response.insertId, 'response': res.response, 'error':res.error}
+                if(!usefulData.error){
+                    //set an error. email taken, choose another email or contact an admin for password assistance.
+                    let myStudent = {
+                        'id':usefulData.id,
+                        'fname':studentUser.fname,
+                        'lname':studentUser.lname,
+                    }
+                    fetch('http://localhost:8080/api/userS', {
+                        method:'POST',
+                        headers:{
+                            'Content-Type':'application/json'
+                        },
+                        body:JSON.stringify(myStudent)
+                    }).then(res => res.json())
+                    .then(res => {
+                            fetch('http://localhost:8080/api/userInfoS/'+usefulData.id+'', {
+                            method:'GET',
+                        }).then(res => res.json())
+                        .then(res => {
+                            let torf = true
+                            User.setIsLoggedIn(torf)
+                            User.setAnyUser(res.response[0])
+                        })
+                            directory()
+                    })
+                }else{
+                    console.log(res.response)
+                    this.setState({emailError:'Email used Contact an Admin to reset password or use a different email'})
+                }
+            })
+            
+            
+            //THIS API CALL INSERTS THE USER INTO THE STUDENT DB
+
+            // await apis.insertUser(student).then(res =>{
+            //     console.log(res)
+            //     console.log('pickles')
+            // })
+
+            //directory()
             //do actual validation from backend here.
             //return true
         }
@@ -188,6 +245,7 @@ class SignUpStudent extends React.Component <any, any> {
         }
 
         return(
+            <div className='directory'>
             <div>
                 <h1>Student Sign Up</h1>
                 <div id={'content'}></div>
@@ -217,9 +275,10 @@ class SignUpStudent extends React.Component <any, any> {
                         <input type={'password'} className={'form-control'} placeholder={'Password'} name={'repassword'} onChange={handleChange}/>
                     </div>
                     <p>{this.state.repassError}</p>
-                    <button type={'submit'} className={'btn btn-primary'} id={'login'} onClick={handleSubmit}>Login</button>
+                    <button type={'submit'} className={'btn btn-primary'} id={'login'} onClick={handleSubmit}>Create Account</button>
                 </form>
                 <a href='#' onClick={signUp}>Not a student? Organization Sign Up Here</a>
+            </div>
             </div>
         )
     }

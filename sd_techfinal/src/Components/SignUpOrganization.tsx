@@ -4,6 +4,8 @@ import Search from './Search'
 import organizationUser from "./OrganizationUser";
 import { OrganizationUser } from "../model/OrganizationUser";
 import SignUpStudent from "./SignUpStudent";
+import User from "./User";
+import { wait } from "@testing-library/user-event/dist/utils";
 
 
 class OrganizationSignUp extends React.Component <any, any> {
@@ -127,21 +129,67 @@ class OrganizationSignUp extends React.Component <any, any> {
             
             if(validateSubmit()) {
                 this.setState({isSubmit:true})
-                //this currently redirects to the search page.
-                // let newStudent : StudentUser = {
-                //     fname:this.state.fname,
-                //     lname: this.state.lname,
-                //     email: this.state.email,
-                //     password: this.state.password,
-                //     isLoggedIn : true
-                // }
-                // studentUser.setStudent(newStudent)
-                validateLogin()
+                let state = {
+                    email:this.state.email,
+                    accountManager:this.state.acname,
+                    organizationName:this.state.oname,
+                    taxID:this.state.taxID,
+                    password:this.state.password,
+                }
+                validateLogin(state)
             }
         }
 
-        const validateLogin = () => {
-            directory()
+        const validateLogin = async (orgUser:any) => {
+            let usefulData:any;
+            let organization = {
+                'email':orgUser.email,
+                'password':orgUser.password,
+                'userType':'organization',
+            }
+            await fetch('http://localhost:8080/api/user', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify(organization)
+            }).then(res => res.json())
+            .then(res => {
+                console.log(res);
+                usefulData = {'id':res.response.insertId, 'response': res.response, 'error':res.error}
+                if(!usefulData.error){
+                    //set an error. email taken, choose another email or contact an admin for password assistance.
+                    let myOrg = {
+                        'id':usefulData.id,
+                        'organizationName':orgUser.organizationName,
+                        'accountManager':orgUser.accountManager,
+                        'taxID':orgUser.taxID,
+                    }
+                    console.log(myOrg)
+                    fetch('http://localhost:8080/api/userO', {
+                        method:'POST',
+                        headers:{
+                            'Content-Type':'application/json'
+                        },
+                        body:JSON.stringify(myOrg)
+                    }).then(res => res.json())
+                    .then(async res => {
+                        console.log(usefulData.id)
+                            fetch('http://localhost:8080/api/userInfoO/'+usefulData.id+'', {
+                            method:'GET',
+                        }).then(res => res.json())
+                        .then(res => {
+                            let torf = true
+                            User.setIsLoggedIn(torf)
+                            User.setAnyUser(res.response[0])
+                        })
+                        await new Promise(f => setTimeout(f, 1000)).then(()=>directory());
+                    })
+                }else{
+                    console.log(res.response)
+                    this.setState({emailError:'Email used Contact an Admin to reset password or use a different email'})
+                }
+            })
             //do actual validation from backend here.
             //return true
         }
@@ -179,6 +227,7 @@ class OrganizationSignUp extends React.Component <any, any> {
         }
 
         return(
+            <div className='directory'>
             <div className={'directory2'}>
                 <h1>Create Organization Account</h1>
                 <div id={'content'}></div>
@@ -195,7 +244,7 @@ class OrganizationSignUp extends React.Component <any, any> {
                     <p>{this.state.onameError}</p>
                     <div className={'form-group'}>
                         <label>Tax ID:</label>
-                        <input type={'text'} className={'form-control'} placeholder={'xxx-xx-xxxx'} name={'taxID'} onChange={handleChange}/>
+                        <input type={'text'} maxLength={11} className={'form-control'} placeholder={'xxx-xx-xxxx'} name={'taxID'} onChange={handleChange}/>
                     </div>
                     <p>{this.state.taxError}</p>
                     <div className={'form-group'}>
@@ -216,6 +265,7 @@ class OrganizationSignUp extends React.Component <any, any> {
                     <button type={'submit'} className={'btn btn-primary'} id={'login'} onClick={handleSubmit}>Login</button>
                 </form>
                 <a href='#' onClick={signUp}>Not an Organization? Student sign up here</a>
+            </div>
             </div>
         )
     }

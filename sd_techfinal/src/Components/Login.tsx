@@ -3,6 +3,9 @@ import * as ReactDOM from "react-dom/client";
 import Search from './Search'
 import SignUpStudent from "./SignUpStudent";
 import studentUser from "./StudentUser";
+import apis from "../api";
+import User from "./User";
+import SDNav from "./NavBar";
 
 class Login extends React.Component <any, any> {
     constructor(props:any){
@@ -15,10 +18,15 @@ class Login extends React.Component <any, any> {
             isSubmit:false,
             emailError:'',
             passError:'',
+            apiResponse:'',
         }
     };
 
     render(){
+
+        function delay(ms: number) {
+            return new Promise( resolve => setTimeout(resolve, ms) );
+        }
 
         const handleChange = (event:any) =>{
             const {name,value} = event.target;
@@ -62,14 +70,67 @@ class Login extends React.Component <any, any> {
                 password:this.state.password,
             }
             if(validateSubmit(state)) {
-                console.log('true')
                 this.setState({isSubmit:true})
                 validateLogin()
             }
         }
 
-        const validateLogin = () => {
-            directory()
+        const validateLogin = async () => {
+            let usefulData:any;
+            let checkUser = {email:this.state.email, password:this.state.password}
+            await fetch('http://localhost:8080/api/userValidate', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify(checkUser)
+            }).then(res => res.json())
+            .then(res => {
+                usefulData = {id:res.response[0].id, userType:res.response[0].userType}
+                this.setState({apiResponse:usefulData})
+            })
+            if(usefulData.userType === 'student'){
+                //run an api call to get all student Data
+                await fetch('http://localhost:8080/api/userInfoS/'+usefulData.id+'', {
+                method:'GET',
+            }).then(res => res.json())
+            .then(res => {
+                let torf = true
+                User.setIsLoggedIn(torf)
+                User.setAnyUser(res.response[0])
+            })
+            if(User.getIsLoggedIn() === true){
+                await delay(1000);
+                directory()
+            }
+            }
+            else if(usefulData.userType === 'organization'){
+                //run api call to get all organization data
+                await fetch('http://localhost:8080/api/userInfoO/'+usefulData.id+'', {
+                method:'GET',
+            }).then(res => res.json())
+            .then(res => {
+                let torf = true
+                User.setIsLoggedIn(torf)
+                User.setAnyUser(res.response[0])
+            })
+            if(User.getIsLoggedIn() === true){
+                directory()
+            }
+            }
+            else{
+                this.setState({emailError:'Login Invalid'})
+            }
+            
+            //@ts-ignore
+            //let response = apis.validateUser(checkUser)
+            //console.log(response)
+            //@ts-ignore
+            // if(response){
+                
+            //     //directory()
+
+            // };
             //do actual validation from backend here.
             return true
         }
@@ -121,7 +182,9 @@ class Login extends React.Component <any, any> {
 
 
         return(
-            <div className={'directory2'} >
+            <div style={{width:'100%', marginBottom:'2%'}}>
+                <SDNav/>
+            <div className={'directory'} style={{width:'100%'}}>
                 <h1>Login</h1>
                 <div id={'content'}>
                 <form>
@@ -139,6 +202,7 @@ class Login extends React.Component <any, any> {
                 </form>
                 <a href='#' onClick={signUp}>No Account? Sign up Here.</a>
                 </div>
+            </div>
             </div>
         )
     }

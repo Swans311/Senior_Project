@@ -1,5 +1,6 @@
 import React from "react";
 import Select from 'react-select';
+import SDNav from "./NavBar";
 import studentUser from "./StudentUser";
 import User from "./User";
 
@@ -24,28 +25,33 @@ class Search extends React.Component<any, any, {param:any}> {
             { value: 'McDonald\'s', label: 'McDonald\'s' },
             { value: 'Netflix', label: 'Netflix' },
         ]
-
+        let usersName=''
+        if(User.getAnyUser()){
+            usersName = User.getAnyUser().fname +' '+ User.getAnyUser().lname;
+        }
         
         return (
+            <div style={{width:'100%', marginBottom:'2%'}}>
+                <SDNav/>
             <div className={'directory2'}>
                 <form>
-                {User.getIsLoggedIn() ?(<h1>Hello Student</h1>) : (<h1>Search</h1>)}
-                    <div className={'form-group'} >
+                {User.getIsLoggedIn() ?(<div><h2>Search</h2><h6>Hello {usersName}</h6></div>) : (<h1>Search</h1>)}
+                    <div className={'form-group'} style={{float:'right', width:'50%'}}>
                         <label style={{ color: 'black' }}>Major</label><br/>
                         <input type={'text'} placeholder={'Major'} />
                         <p>Placeholder for error</p>
                     </div>
-                    <div className={'form-group'} >
+                    <div className={'form-group'} style={{float:'left', width:'50%'}}>
                         <label style={{ color: 'black' }}>Value</label><br/>
-                        <input type={'number'} placeholder={'Scholarship Value'} />
+                        <input type={'number'} placeholder={'Scholarship Value $'} />
                         <p>Placeholder for error</p>
                     </div>
-                    <div className={'form-group'} >
+                    <div className={'form-group'} style={{float:'right', width:'50%'}} >
                         <label style={{ color: 'black' }}>Min GPA</label><br/>
                         <input type={'text'} placeholder={'Min GPA'} />
                         <p>Placeholder for error</p>
                     </div>
-                    <div className={'form-group'} >
+                    <div className={'form-group'} style={{float:'left', width:'50%'}} >
                         <label>Company Name</label><br />
                         <select>
                         {companies.map(obj => 
@@ -61,7 +67,7 @@ class Search extends React.Component<any, any, {param:any}> {
                     <input type={'submit'} className={'btn btn-primary'} style={{margin:'auto'}} />
                 </form>
             </div>
-            
+            </div>
         );
     }
 
