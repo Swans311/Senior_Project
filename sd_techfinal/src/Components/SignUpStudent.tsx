@@ -6,6 +6,7 @@ import { StudentUser } from "../model/StudentUser";
 import OrganizationSignUp from "./SignUpOrganization";
 import apis from "../api";
 import User from "./User";
+import functions from "./functions";
 
 class SignUpStudent extends React.Component <any, any> {
     constructor(props:any){
@@ -168,48 +169,18 @@ class SignUpStudent extends React.Component <any, any> {
                             User.setIsLoggedIn(torf)
                             User.setAnyUser(res.response[0])
                         })
-                            directory()
+                            functions.directory()
                     })
                 }else{
-                    console.log(res.response)
                     this.setState({emailError:'Email used Contact an Admin to reset password or use a different email'})
                 }
             })
             
-            
-            //THIS API CALL INSERTS THE USER INTO THE STUDENT DB
-
-            // await apis.insertUser(student).then(res =>{
-            //     console.log(res)
-            //     console.log('pickles')
-            // })
-
-            //directory()
-            //do actual validation from backend here.
-            //return true
         }
 
-        const directory = () => {
-            //probably just have this lead to the actual home page again?
-            const dir = document.getElementById('directory') as HTMLElement;
-            const content = ReactDOM.createRoot(dir);
-            content.render(<Search></Search>)
-            const dir2 = document.getElementById('directory2') as HTMLElement;
-            if(dir2){
-                dir2.style.display='none'
-            }
-        }
 
-        const signUp = () => {
-            //probably just have this lead to the actual home page again?
-            const dir = document.getElementById('directory') as HTMLElement;
-            const content = ReactDOM.createRoot(dir);
-            content.render(<OrganizationSignUp/>)
-            const dir2 = document.getElementById('directory2') as HTMLElement;
-            if(dir2){
-                dir2.style.display='none'
-            }
-        }
+
+
 
         const validateSubmit = (values:{email:string; password:string; fname:string, lname:string, repass:string}) =>{
             let regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -277,7 +248,7 @@ class SignUpStudent extends React.Component <any, any> {
                     <p>{this.state.repassError}</p>
                     <button type={'submit'} className={'btn btn-primary'} id={'login'} onClick={handleSubmit}>Create Account</button>
                 </form>
-                <a href='#' onClick={signUp}>Not a student? Organization Sign Up Here</a>
+                <a href='#' onClick={functions.signUpO}>Not a student? Organization Sign Up Here</a>
             </div>
             </div>
         )

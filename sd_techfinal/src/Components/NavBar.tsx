@@ -4,6 +4,8 @@ import Search from './Search'
 import studentUser from "./StudentUser";
 import Login from "./Login";
 import User from './User';
+import MyAccount from './myAccount';
+import functions from "./functions";
 
 class SDNav extends React.Component <any, any> {
     constructor(props:any){
@@ -16,7 +18,6 @@ class SDNav extends React.Component <any, any> {
 
     toggleOpen = () => {
         this.setState({isToggleOpen: !this.state.isToggleOpen})
-        console.log(this.state.isToggleOpen)
     };
 
     render(){
@@ -61,10 +62,10 @@ class SDNav extends React.Component <any, any> {
                 dir2.style.display='none'
             }
         }
+        
 
         const menuClass = `dropdown-menu${this.state.isToggleOpen ? 'show' : ''}`
         const itemClass = `dropdown-item${this.state.isToggleOpen? 'show' : ''}`
-        console.log(User.getAnyUser())
         return(
             <div style={{width:'100%', maxHeight:'85px'}}>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark mx-auto" style={{width:'100%', borderTopRightRadius:'5px', borderTopLeftRadius:'5px', maxHeight:'85px'}}>
@@ -85,9 +86,10 @@ class SDNav extends React.Component <any, any> {
                                         Account Info
                                     </button>
                                     <ul className={menuClass} style={{zIndex:2}}>
-                                        <li style={{listStyleType:'none'}}><a className="dropdown-item" href="#" style={{backgroundColor:'#333333', color:'#D3d3d3'}}>My Account</a></li>
-                                        {User.getAnyUser().userType==='student' ? (<li style={{listStyleType:'none'}}><a className="dropdown-item" href="#" style={{backgroundColor:'#333333', color:'#d3d3d3'}}>My Applications</a></li>) 
+                                        <li style={{listStyleType:'none'}}><a className="dropdown-item" href="#" onClick={functions.myAccount} style={{backgroundColor:'#333333', color:'#D3d3d3'}}>My Account</a></li>
+                                        {User.getAnyUser().userType==='student' ? (<li style={{listStyleType:'none'}}><a className="dropdown-item" href="#"  style={{backgroundColor:'#333333', color:'#d3d3d3'}}>My Applications</a></li>) 
                                         : (<li style={{listStyleType:'none'}}><a className="dropdown-item" href="#" style={{backgroundColor:'#333333', color:'#d3d3d3'}}>My Scholarships</a></li>)}
+                                        <li style={{listStyleType:'none', backgroundColor:'#333333', color:'#D3d3d3'}} >_________________</li>
                                         <li style={{listStyleType:'none'}}><a className="dropdown-item" href="#" onClick={LoginOut} style={{backgroundColor:'#333333', color:'#d3d3d3'}}>Logout</a></li>
                                     </ul>
                                     </div>)

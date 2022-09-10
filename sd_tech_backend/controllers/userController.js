@@ -122,6 +122,84 @@ exports.getUserInfoO = (req,res) => {
     });
 }
 
+exports.getScholarshipsByID = (req,res) => {
+    let data = {id:req.params.id}
+    let sql = 'SELECT * FROM sdtech.scholarship WHERE postedBy = '+data.id+';'
+    let query = conn.query(sql, data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.getAllScholarships = (req,res) => {
+    let sql = 'SELECT * FROM sdtech.scholarship ;'
+    let query = conn.query(sql, data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.createScholarship = (req,res) => {
+    let data = {'postedBy':req.body.id, 'value':req.body.value, 'essayRequired':req.body.essayRequired, 'major':req.body.major, 'ethnicity':req.body.ethnicity, 'description':req.body.description};
+    let sql = 'INSERT INTO sdtech.scholarship `postedBy`, `value`, `essayRequired`, `major`, `ethnicity`, `description` VALUES ("'+data.postedBy+'", '+body.value+', '+body.essayRequired+', "'+body.major+'", "'+body.ethnicity+'", "'+body.description+'"));'
+    let query = conn.query(sql, data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.getApplicationsByUserID = (req,res) => {
+    let data = {id:req.body.id}
+    let sql = 'SELECT * FROM sdtech.application WHERE studentID = '+data.id+';'
+    let query = conn.query(sql, data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.getApplicationsByScholarshipID = (req,res) => {
+    let data = {id:req.body.id}
+    let sql = 'SELECT * FROM sdtech.application WHERE scholarshipID = '+data.id+';'
+    let query = conn.query(sql, data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.getAllApplications = (req,res) => {
+    let sql = 'SELECT * FROM sdtech.application ;'
+    let query = conn.query(sql, data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.getAppsByScholarship = (req,res) => {
+    let data = {id:req.body.id};
+    let sql = 'SELECT * FROM sdtech.application INNER JOIN sdtech.scholarship ON application.scholarshipID = scholarship.id WHERE scholarshipID = '+data.id+';'
+    let query = conn.query(sql, data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.createApplication = (req,res) => {
+    let data = {'scholarshipID':req.body.scholarshipID, 'studentID':req.body.studentID, 'essay':req.body.essay, 'winner':null};
+    let sql = 'INSERT INTO `sdtech`.`application` (`scholarshipID`, `studentID`, `essay`, `winner`) VALUES ('+req.body.scholarshipID+', '+data.studentID+', '+data.essay+', '+data.winner+');'
+    let query = conn.query(sql, data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.getCompanies = (req,res) => {
+    let sql = 'SELECT companyName, organizationID FROM sdtech.organizationusers;'
+    let query = conn.query(sql, data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
 //to get all of the information from the student and the user, we also need a method to create the student user as the user account is created.
 //SELECT * FROM sdtech.users
 //INNER JOIN sdtech.studentusers ON users.id = studentusers.userID;

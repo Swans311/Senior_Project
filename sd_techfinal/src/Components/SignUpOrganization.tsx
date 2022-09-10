@@ -6,6 +6,7 @@ import { OrganizationUser } from "../model/OrganizationUser";
 import SignUpStudent from "./SignUpStudent";
 import User from "./User";
 import { wait } from "@testing-library/user-event/dist/utils";
+import functions from "./functions";
 
 
 class OrganizationSignUp extends React.Component <any, any> {
@@ -183,10 +184,9 @@ class OrganizationSignUp extends React.Component <any, any> {
                             User.setIsLoggedIn(torf)
                             User.setAnyUser(res.response[0])
                         })
-                        await new Promise(f => setTimeout(f, 1000)).then(()=>directory());
+                        await new Promise(f => setTimeout(f, 1000)).then(()=>functions.directory());
                     })
                 }else{
-                    console.log(res.response)
                     this.setState({emailError:'Email used Contact an Admin to reset password or use a different email'})
                 }
             })
@@ -194,27 +194,9 @@ class OrganizationSignUp extends React.Component <any, any> {
             //return true
         }
 
-        const directory = () => {
-            //probably just have this lead to the actual home page again?
-            const dir = document.getElementById('directory') as HTMLElement;
-            const content = ReactDOM.createRoot(dir);
-            content.render(<Search></Search>)
-            const dir2 = document.getElementById('directory2') as HTMLElement;
-            if(dir2){
-                dir2.style.display='none'
-            }
-        }
 
-        const signUp = () => {
-            //probably just have this lead to the actual home page again?
-            const dir = document.getElementById('directory') as HTMLElement;
-            const content = ReactDOM.createRoot(dir);
-            content.render(<SignUpStudent/>)
-            const dir2 = document.getElementById('directory2') as HTMLElement;
-            if(dir2){
-                dir2.style.display='none'
-            }
-        }
+
+        
 
         const validateSubmit = () =>{
             
@@ -264,7 +246,7 @@ class OrganizationSignUp extends React.Component <any, any> {
                     <p>{this.state.repassError}</p>
                     <button type={'submit'} className={'btn btn-primary'} id={'login'} onClick={handleSubmit}>Login</button>
                 </form>
-                <a href='#' onClick={signUp}>Not an Organization? Student sign up here</a>
+                <a href='#' onClick={functions.signUp}>Not an Organization? Student sign up here</a>
             </div>
             </div>
         )

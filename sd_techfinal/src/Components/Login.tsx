@@ -6,6 +6,7 @@ import studentUser from "./StudentUser";
 import apis from "../api";
 import User from "./User";
 import SDNav from "./NavBar";
+import functions from "./functions";
 
 class Login extends React.Component <any, any> {
     constructor(props:any){
@@ -101,7 +102,7 @@ class Login extends React.Component <any, any> {
             })
             if(User.getIsLoggedIn() === true){
                 await delay(1000);
-                directory()
+                functions.directory()
             }
             }
             else if(usefulData.userType === 'organization'){
@@ -115,7 +116,7 @@ class Login extends React.Component <any, any> {
                 User.setAnyUser(res.response[0])
             })
             if(User.getIsLoggedIn() === true){
-                directory()
+                functions.directory()
             }
             }
             else{
@@ -135,25 +136,9 @@ class Login extends React.Component <any, any> {
             return true
         }
 
-        const directory = () => {
-            const dir = document.getElementById('directory') as HTMLElement;
-            const content = ReactDOM.createRoot(dir);
-            content.render(<Search></Search>)
-            const dir2 = document.getElementById('directory2') as HTMLElement;
-            if(dir2){
-                dir2.style.display='none'
-            }
-        }
 
-        const signUp = () => {
-            const dir = document.getElementById('directory') as HTMLElement;
-            const content = ReactDOM.createRoot(dir);
-            content.render(<SignUpStudent/>)
-            const dir2 = document.getElementById('directory2') as HTMLElement;
-            if(dir2){
-                dir2.style.display='none'
-            }
-        }
+
+
 
         const validateSubmit = (values:{email:string; password:string;}) =>{
             let regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -200,7 +185,7 @@ class Login extends React.Component <any, any> {
                     <p>{this.state.passError}</p>
                     <button type={'submit'} className={'btn btn-primary'} id={'login'} onClick={handleSubmit}>Login</button>
                 </form>
-                <a href='#' onClick={signUp}>No Account? Sign up Here.</a>
+                <a href='#' onClick={functions.signUp}>No Account? Sign up Here.</a>
                 </div>
             </div>
             </div>
