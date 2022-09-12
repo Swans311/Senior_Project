@@ -7,6 +7,7 @@ import SignUpStudent from "./SignUpStudent";
 import User from "./User";
 import { wait } from "@testing-library/user-event/dist/utils";
 import functions from "./functions";
+import SDNav from "./NavBar";
 
 
 class OrganizationSignUp extends React.Component <any, any> {
@@ -175,23 +176,28 @@ class OrganizationSignUp extends React.Component <any, any> {
                         body:JSON.stringify(myOrg)
                     }).then(res => res.json())
                     .then(async res => {
-                        console.log(usefulData.id)
-                            fetch('http://localhost:8080/api/userInfoO/'+usefulData.id+'', {
-                            method:'GET',
-                        }).then(res => res.json())
-                        .then(res => {
-                            let torf = true
-                            User.setIsLoggedIn(torf)
-                            User.setAnyUser(res.response[0])
-                        })
-                        await new Promise(f => setTimeout(f, 1000)).then(()=>functions.directory());
-                    })
-                }else{
+                        console.log(res)
+                        if(res.error){
+                            this.setState({onameError:'Organization Exists, please get in contact with the correct personnel for assistance'})
+                        }
+                        else{
+                                    fetch('http://localhost:8080/api/userInfoO/'+usefulData.id+'', {
+                                    method:'GET',
+                                }).then(res => res.json())
+                                .then(res => {
+                                    let torf = true
+                                    User.setIsLoggedIn(torf)
+                                    User.setAnyUser(res.response[0])
+                                })
+                                await new Promise(f => setTimeout(f, 1000)).then(()=>functions.directory());
+                            
+                        }
+                            
+                })}
+                else{
                     this.setState({emailError:'Email used Contact an Admin to reset password or use a different email'})
                 }
             })
-            //do actual validation from backend here.
-            //return true
         }
 
 
@@ -209,7 +215,9 @@ class OrganizationSignUp extends React.Component <any, any> {
         }
 
         return(
-            <div className='directory'>
+            <div style={{width:'100%', marginBottom:'2%'}}>
+                <SDNav/>
+            <div className={'directory'} style={{width:'100%'}}>
             <div className={'directory2'}>
                 <h1>Create Organization Account</h1>
                 <div id={'content'}></div>
@@ -244,9 +252,10 @@ class OrganizationSignUp extends React.Component <any, any> {
                         <input type={'password'} className={'form-control'} placeholder={'Password'} name={'repassword'} onChange={handleChange}/>
                     </div>
                     <p>{this.state.repassError}</p>
-                    <button type={'submit'} className={'btn btn-primary'} id={'login'} onClick={handleSubmit}>Login</button>
+                    <button type={'submit'} className={'btn btn-primary'} id={'login'} onClick={handleSubmit}>Create Account</button>
                 </form>
                 <a href='#' onClick={functions.signUp}>Not an Organization? Student sign up here</a>
+            </div>
             </div>
             </div>
         )

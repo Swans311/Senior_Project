@@ -1,8 +1,5 @@
-import { userInfo } from "os";
 import React from "react";
-import Select from 'react-select';
 import SDNav from "./NavBar";
-import studentUser from "./StudentUser";
 import User from "./User";
 
 class myAccount extends React.Component<any, any, {param:any}> {
@@ -31,6 +28,15 @@ class myAccount extends React.Component<any, any, {param:any}> {
                     <h3>{accountName}</h3>
                     {myInfo.userType === 'organization' ? (<label>Account Manager: {myInfo.accountManager}</label>) : ''}
                         <div id={'content'}>
+                            <div style={{float:'right'}}>
+                                <label><i className="bi bi-gear"></i> Settings</label>                            </div>
+                            <div>
+                                <h5>My Applications/Scholarships</h5>
+                                <hr/>
+                            </div>
+                            <div>
+                                <h5>Something?</h5>
+                            </div>
                             <p>Here I want to install options to add in options to view specific scholarships here that have been posted by this specific company</p>
                             <p>I also want to add in a settings button to add in the option to view/change your account info</p>
                             <p>there should also be an option for organizations to post scholarships directly from this page, but maybe also from the nav bar?</p>

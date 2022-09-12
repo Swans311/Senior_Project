@@ -4,9 +4,9 @@ import Search from './Search'
 import studentUser from './StudentUser'
 import { StudentUser } from "../model/StudentUser";
 import OrganizationSignUp from "./SignUpOrganization";
-import apis from "../api";
 import User from "./User";
 import functions from "./functions";
+import SDNav from "./NavBar";
 
 class SignUpStudent extends React.Component <any, any> {
     constructor(props:any){
@@ -216,8 +216,10 @@ class SignUpStudent extends React.Component <any, any> {
         }
 
         return(
-            <div className='directory'>
-            <div>
+            <div style={{width:'100%', marginBottom:'2%'}}>
+                <SDNav/>
+            <div className={'directory'} style={{width:'100%'}}>
+            <div className={'directory2'}>
                 <h1>Student Sign Up</h1>
                 <div id={'content'}></div>
                 <form>
@@ -249,6 +251,7 @@ class SignUpStudent extends React.Component <any, any> {
                     <button type={'submit'} className={'btn btn-primary'} id={'login'} onClick={handleSubmit}>Create Account</button>
                 </form>
                 <a href='#' onClick={functions.signUpO}>Not a student? Organization Sign Up Here</a>
+            </div>
             </div>
             </div>
         )

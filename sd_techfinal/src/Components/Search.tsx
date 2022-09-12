@@ -8,8 +8,11 @@ class Search extends React.Component<any, any, {param:any}> {
     constructor(props:any){
         super(props);
         this.state = {
-            company:'',
+            company:[],
             value:'',
+            gpa:0,
+            companyID:0,
+            major:'',
             isLoggedIn:'',
             userError:'',
             isSubmit:false,
@@ -18,17 +21,42 @@ class Search extends React.Component<any, any, {param:any}> {
         }
     };
 
+    componentDidMount = () => {
+        fetch('http://localhost:8080/api/getCompanies', {
+            method:'GET',
+        }).then(res => res.json())
+        .then(res => {
+            this.setState({company:res.response})
+        })
+        
+        
+    }
+
     render() {
-        const companies = [
-            { value: 'Google', label: 'Google' },
-            { value: 'Amazon', label: 'Amazon' },
-            { value: 'McDonald\'s', label: 'McDonald\'s' },
-            { value: 'Netflix', label: 'Netflix' },
-        ]
+
         let usersName=''
         if(User.getAnyUser()){
             usersName = User.getAnyUser().fname +' '+ User.getAnyUser().lname;
         }
+
+        //this page still needs event handlers
+
+        const handleChange = (event:any) => {
+            const {name,value} = event.target;
+            if(name === 'gpa'){
+                this.setState({gpa:value})
+            }
+            if(name==='value'){
+                this.setState({value:value})
+            }
+            if(name==='company'){
+                this.setState({companyID:value})
+            }
+            if(name==='major'){
+                this.setState({major:value});
+            }
+        }
+
         
         return (
             <div style={{width:'100%', marginBottom:'2%'}}>
@@ -36,30 +64,26 @@ class Search extends React.Component<any, any, {param:any}> {
             <div className={'directory2'}>
                 <form>
                 {User.getIsLoggedIn() ?(<div><h2>Search</h2><h6>Hello {usersName}</h6></div>) : (<h1>Search</h1>)}
-                    <div className={'form-group'} style={{float:'right', width:'50%'}}>
-                        <label style={{ color: 'black' }}>Major</label><br/>
-                        <input type={'text'} placeholder={'Major'} />
-                        <p>Placeholder for error</p>
+                    <div className={'form-group'} style={{float:'right', width:'40%'}}>
+                        <label >Major</label><br/>
+                        <input className={'form-control'} name={'major'} type={'text'} placeholder={'Major'} value={this.state.major} onChange={handleChange} />
                     </div>
-                    <div className={'form-group'} style={{float:'left', width:'50%'}}>
-                        <label style={{ color: 'black' }}>Value</label><br/>
-                        <input type={'number'} placeholder={'Scholarship Value $'} />
-                        <p>Placeholder for error</p>
+                    <div className={'form-group'} style={{float:'left', width:'40%'}}>
+                        <label >Min Value $</label><br/>
+                        <input className={'form-control'} name={'value'} type={'number'} placeholder={'Scholarship Value $'} value={this.state.value} onChange={handleChange}/>
                     </div>
-                    <div className={'form-group'} style={{float:'right', width:'50%'}} >
-                        <label style={{ color: 'black' }}>Min GPA</label><br/>
-                        <input type={'text'} placeholder={'Min GPA'} />
-                        <p>Placeholder for error</p>
+                    <div className={'form-group'} style={{float:'right', width:'40%'}} >
+                        <label >Min GPA</label><br/>
+                        <input className={'form-control'} name={'gpa'} type={'number'} min={0} max={4} placeholder={'Min GPA'} value={this.state.gpa} onChange={handleChange} />
                     </div>
-                    <div className={'form-group'} style={{float:'left', width:'50%'}} >
+                    <div className={'form-group'} style={{float:'left', width:'40%'}} >
                         <label>Company Name</label><br />
-                        <select>
-                        {companies.map(obj => 
-                        <option key={obj.value} value={obj.value} >
-                            {obj.label}
+                        <select className={'form-control'} name={'company'} value={this.state.companyID} onChange={handleChange}>
+                        {this.state.company.map((obj: { organizationID:any, companyName:any} ) => 
+                        <option key={obj.organizationID} value={obj.organizationID} >
+                            {obj.companyName}
                             </option>)}
                         </select>
-                        <p>Placeholder for error</p>
                     </div>
                     <div style={{height:'60px', clear:'both', width:'100%'}}>
                     <br />

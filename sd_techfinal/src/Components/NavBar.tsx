@@ -68,7 +68,7 @@ class SDNav extends React.Component <any, any> {
         const itemClass = `dropdown-item${this.state.isToggleOpen? 'show' : ''}`
         return(
             <div style={{width:'100%', maxHeight:'85px'}}>
-                <nav className="navbar navbar-expand-lg navbar-dark bg-dark mx-auto" style={{width:'100%', borderTopRightRadius:'5px', borderTopLeftRadius:'5px', maxHeight:'85px'}}>
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark mx-auto" style={{width:'100%', borderTopRightRadius:'5px', borderTopLeftRadius:'5px', maxHeight:'85px', float:'left'}}>
                     <ul className={'navbar-nav mx-auto'}>
                         <li className='nav-item active' style={{marginLeft:0, marginRight:'20px'}}>
                             <a className="navbar-brand" onClick={directory} >SD Tech Scholarships</a>
@@ -83,7 +83,7 @@ class SDNav extends React.Component <any, any> {
                                 {User.getIsLoggedIn() ? (
                                 <div className="dropdown" style={{position:'fixed', marginBottom:'5%', float:'right'}}>
                                     <button  type="button" className="btn btn-primary dropdown-toggle" onClick={this.toggleOpen} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id={'toggleDropdown'}>
-                                        Account Info
+                                    <i className='bi bi-person-circle'></i> Account Info
                                     </button>
                                     <ul className={menuClass} style={{zIndex:2}}>
                                         <li style={{listStyleType:'none'}}><a className="dropdown-item" href="#" onClick={functions.myAccount} style={{backgroundColor:'#333333', color:'#D3d3d3'}}>My Account</a></li>
@@ -93,7 +93,7 @@ class SDNav extends React.Component <any, any> {
                                         <li style={{listStyleType:'none'}}><a className="dropdown-item" href="#" onClick={LoginOut} style={{backgroundColor:'#333333', color:'#d3d3d3'}}>Logout</a></li>
                                     </ul>
                                     </div>)
-                                :(<button className={'btn btn-primary'} style={{marginRight:'2%'}} onClick={LoginOut} >Login</button>)}
+                                :(<button className={'btn btn-primary'} style={{position:'fixed', marginBottom:'5%', float:'right'}} onClick={LoginOut} > <i className='bi bi-person-circle'></i> Login</button>)}
                             </div>
                         </li>
                     </ul>

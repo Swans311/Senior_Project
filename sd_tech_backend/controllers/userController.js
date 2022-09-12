@@ -43,15 +43,24 @@ exports.createStudentUser = (req,res) => {
 }
 exports.createOrganizationUser = (req,res) => {
     let data = {userID : req.body.id, companyName:req.body.organizationName, taxID:req.body.taxID, accountManager: req.body.accountManager}
-    let sql = 'INSERT INTO sdtech.organizationusers (userID, companyName, taxID, accountManager) VALUES ('+data.userID+', "'+data.companyName+'", '+data.taxID+', "'+data.accountManager+'");'
-    let query = conn.query(sql, data, (err,results) => {
+    let sql1 = 'SELECT * FROM sdtech.organizationusers WHERE companyName = "'+data.companyName+'";';
+    let query1 = conn.query(sql1, data, (err,results1)=>{
         if(err) throw err;
-        if(results){
-            res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+        if(results1.length > 0){
+            res.send(JSON.stringify({'status':200, 'error':'Organization Exists', 'response':results1}))
         }
         else{
-            res.send(JSON.stringify({'status':200, 'error':'An issue occurred', 'response':false}));
-        }    
+            let sql = 'INSERT INTO sdtech.organizationusers (userID, companyName, taxID, accountManager) VALUES ('+data.userID+', "'+data.companyName+'", '+data.taxID+', "'+data.accountManager+'");'
+            let query = conn.query(sql, data, (err,results) => {
+                if(err) throw err;
+                if(results){
+                    res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+                }
+                else{
+                    res.send(JSON.stringify({'status':200, 'error':'An issue occurred', 'response':false}));
+                }    
+            })
+        }
     })
 }
 exports.updateUser = (req,res) =>{
@@ -133,7 +142,7 @@ exports.getScholarshipsByID = (req,res) => {
 
 exports.getAllScholarships = (req,res) => {
     let sql = 'SELECT * FROM sdtech.scholarship ;'
-    let query = conn.query(sql, data, (err,results)=>{
+    let query = conn.query(sql, (err,results)=>{
         if(err) throw err;
         res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
     });
@@ -168,7 +177,7 @@ exports.getApplicationsByScholarshipID = (req,res) => {
 
 exports.getAllApplications = (req,res) => {
     let sql = 'SELECT * FROM sdtech.application ;'
-    let query = conn.query(sql, data, (err,results)=>{
+    let query = conn.query(sql, (err,results)=>{
         if(err) throw err;
         res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
     });
@@ -194,7 +203,7 @@ exports.createApplication = (req,res) => {
 
 exports.getCompanies = (req,res) => {
     let sql = 'SELECT companyName, organizationID FROM sdtech.organizationusers;'
-    let query = conn.query(sql, data, (err,results)=>{
+    let query = conn.query(sql, (err,results)=>{
         if(err) throw err;
         res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
     });
