@@ -96,6 +96,15 @@
         margin:'5px';
     }
 
+.dropDownLink {
+    list-style-type:'none';
+    background-color:'#333333';
+    color:'#D3d3d3';
+}
+.dropDownLink:hover {
+    background-color:'white';
+    color:'black';
+}
 
 #content {
     height: fit-content;

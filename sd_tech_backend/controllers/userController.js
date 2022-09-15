@@ -149,8 +149,8 @@ exports.getAllScholarships = (req,res) => {
 }
 
 exports.createScholarship = (req,res) => {
-    let data = {'postedBy':req.body.id, 'value':req.body.value, 'essayRequired':req.body.essayRequired, 'major':req.body.major, 'ethnicity':req.body.ethnicity, 'description':req.body.description};
-    let sql = 'INSERT INTO sdtech.scholarship `postedBy`, `value`, `essayRequired`, `major`, `ethnicity`, `description` VALUES ("'+data.postedBy+'", '+body.value+', '+body.essayRequired+', "'+body.major+'", "'+body.ethnicity+'", "'+body.description+'"));'
+    let data = {'postedBy':req.body.id, 'companyName':req.body.companyName, 'value':req.body.value, 'essayRequired':req.body.essayRequired, 'major':req.body.major, 'ethnicity':req.body.ethnicity, 'description':req.body.description, 'title':req.body.title, 'gpa':req.body.gpa};
+    let sql = 'INSERT INTO sdtech.scholarship (`postedBy`, `value`, `essayRequired`, `major`, `ethnicity`, `description`, `companyName`, `title`, `minGPA`) VALUES ("'+data.postedBy+'", '+data.value+', '+data.essayRequired+', "'+data.major+'", "'+data.ethnicity+'", "'+data.description+'", "'+data.companyName+'", "'+data.title+'", '+data.gpa+');'
     let query = conn.query(sql, data, (err,results)=>{
         if(err) throw err;
         res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
@@ -167,7 +167,7 @@ exports.getApplicationsByUserID = (req,res) => {
 }
 
 exports.getApplicationsByScholarshipID = (req,res) => {
-    let data = {id:req.body.id}
+    let data = {id:req.params.id}
     let sql = 'SELECT * FROM sdtech.application WHERE scholarshipID = '+data.id+';'
     let query = conn.query(sql, data, (err,results)=>{
         if(err) throw err;
@@ -184,7 +184,7 @@ exports.getAllApplications = (req,res) => {
 }
 
 exports.getAppsByScholarship = (req,res) => {
-    let data = {id:req.body.id};
+    let data = {id:req.params.id};
     let sql = 'SELECT * FROM sdtech.application INNER JOIN sdtech.scholarship ON application.scholarshipID = scholarship.id WHERE scholarshipID = '+data.id+';'
     let query = conn.query(sql, data, (err,results)=>{
         if(err) throw err;
@@ -192,9 +192,36 @@ exports.getAppsByScholarship = (req,res) => {
     });
 }
 
+exports.getScholarshipsAppliedTo = (req,res) => {
+    let data = {id:req.params.id};
+    let sql = 'SELECT * FROM sdtech.application INNER JOIN sdtech.scholarship ON postedBy = scholarshipID  WHERE studentID = '+data.id+';'
+    let query = conn.query(sql, data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.getStudentInfoByScholarship = (req,res) => {
+    let data = {id: req.params.id};
+    let sql = 'SELECT * FROM sdtech.application INNER JOIN sdtech.studentusers ON studentusers.studentID = application.studentID WHERE scholarshipID = '+data.id+';'
+    let query = conn.query(sql, data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.getScholarshipBySID = (req,res) => {
+    let data = {id: req.params.id};
+    let sql = 'SELECT * FROM sdtech.scholarship WHERE id = '+data.id+';'
+    let query = conn.query(sql, data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
 exports.createApplication = (req,res) => {
-    let data = {'scholarshipID':req.body.scholarshipID, 'studentID':req.body.studentID, 'essay':req.body.essay, 'winner':null};
-    let sql = 'INSERT INTO `sdtech`.`application` (`scholarshipID`, `studentID`, `essay`, `winner`) VALUES ('+req.body.scholarshipID+', '+data.studentID+', '+data.essay+', '+data.winner+');'
+    let data = {'scholarshipID':req.body.scholarshipID, 'studentID':req.body.studentID, 'essay':req.body.essay};
+    let sql = 'INSERT INTO `sdtech`.`application` (`scholarshipID`, `studentID`, `essay`) VALUES ('+req.body.scholarshipID+', '+data.studentID+', '+data.essay+');'
     let query = conn.query(sql, data, (err,results)=>{
         if(err) throw err;
         res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));

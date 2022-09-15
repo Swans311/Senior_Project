@@ -9,7 +9,7 @@ class myScholarships extends React.Component<any, any, {param:any}> {
     constructor(props:any){
         super(props);
         this.state = {
-            company:'',
+            company:'', 
             value:'',
             isLoggedIn:'',
             userError:'',

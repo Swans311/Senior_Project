@@ -15,15 +15,18 @@ router.post('/userValidate',UserCtrl.validateUser)
 router.get('/userInfoS/:id', UserCtrl.getUserInfoS)
 router.get('/userInfoO/:id', UserCtrl.getUserInfoO)
 router.get('/getCompanies', UserCtrl.getCompanies)
+router.get('/myApps/:id', UserCtrl.getScholarshipsAppliedTo)
+router.get('/studentAppInfo/:id', UserCtrl.getStudentInfoByScholarship)
 
 //for applications and scholarships
 router.get('/allApps', UserCtrl.getAllApplications)
 router.get('/appsByScholarship', UserCtrl.getApplicationsByScholarshipID)
-router.get('/appsByStudent', UserCtrl.getApplicationsByUserID)
+router.get('/appsByStudent/:id', UserCtrl.getApplicationsByUserID)
 router.get('/allScholarships', UserCtrl.getAllScholarships)
-router.get('/scholarshipsByID', UserCtrl.getScholarshipsByID)
+router.get('/scholarshipsByID/:id', UserCtrl.getScholarshipsByID)
 router.post('/createScholarship', UserCtrl.createScholarship)
 router.post('/createApplication', UserCtrl.createApplication)
+router.get('/getScholarship/:id', UserCtrl.getScholarshipBySID)
 
 
 module.exports = router

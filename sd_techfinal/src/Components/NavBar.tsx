@@ -75,22 +75,22 @@ class SDNav extends React.Component <any, any> {
                         </li>
                         <li className={'nav-item active'} style={{marginRight:'20px', marginLeft:'20px', clear:'both'}}>
                             <input type='text' placeholder="Search" name='search' style={{width:'75%'}} value={this.state.input} onChange={handleChange}/>
-                            <button type='submit' onClick={submitSearch} style={{width:'25%'}} className={'btn btn-outline-success'}>Search</button>
+                            <button type='submit' onClick={()=>functions.navSearch(this.state.input)} style={{width:'25%'}} className={'btn btn-outline-success'}>Search</button>
                         </li>
                         <li>
                             <div>
                                 {/* Should turn this into a user icon with a drop down option for settings and login/logout */}
                                 {User.getIsLoggedIn() ? (
-                                <div className="dropdown" style={{position:'fixed', marginBottom:'5%', float:'right'}}>
+                                <div className="dropdown" style={{position:'absolute', marginBottom:'5%', float:'right'}}>
                                     <button  type="button" className="btn btn-primary dropdown-toggle" onClick={this.toggleOpen} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id={'toggleDropdown'}>
                                     <i className='bi bi-person-circle'></i> Account Info
                                     </button>
                                     <ul className={menuClass} style={{zIndex:2}}>
-                                        <li style={{listStyleType:'none'}}><a className="dropdown-item" href="#" onClick={functions.myAccount} style={{backgroundColor:'#333333', color:'#D3d3d3'}}>My Account</a></li>
+                                        <li className={'dropDownLink'} style={{listStyleType:'none'}}><a className="dropdown-item" href="#" onClick={functions.myAccount} style={{backgroundColor:'#333333', color:'#D3d3d3'}}>My Account</a></li>
                                         {User.getAnyUser().userType==='student' ? (<li style={{listStyleType:'none'}}><a className="dropdown-item" href="#"  style={{backgroundColor:'#333333', color:'#d3d3d3'}}>My Applications</a></li>) 
-                                        : (<li style={{listStyleType:'none'}}><a className="dropdown-item" href="#" style={{backgroundColor:'#333333', color:'#d3d3d3'}}>My Scholarships</a></li>)}
-                                        <li style={{listStyleType:'none', backgroundColor:'#333333', color:'#D3d3d3'}} >_________________</li>
-                                        <li style={{listStyleType:'none'}}><a className="dropdown-item" href="#" onClick={LoginOut} style={{backgroundColor:'#333333', color:'#d3d3d3'}}>Logout</a></li>
+                                        : (<li className={'dropDownLink'} style={{listStyleType:'none'}}><a className="dropdown-item" href="#" style={{backgroundColor:'#333333', color:'#d3d3d3'}}>My Scholarships</a></li>)}
+                                        <li className={'dropDownLink'} style={{listStyleType:'none', backgroundColor:'#333333', color:'#D3d3d3'}} >_________________</li>
+                                        <li className={'dropDownLink'}style={{listStyleType:'none'}}><a className="dropdown-item" href="#" onClick={LoginOut} style={{backgroundColor:'#333333', color:'#d3d3d3'}}>Logout</a></li>
                                     </ul>
                                     </div>)
                                 :(<button className={'btn btn-primary'} style={{position:'fixed', marginBottom:'5%', float:'right'}} onClick={LoginOut} > <i className='bi bi-person-circle'></i> Login</button>)}

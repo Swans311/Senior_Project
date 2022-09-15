@@ -8,7 +8,7 @@ class Application extends React.Component<any, any, {param:any}> {
         super(props);
         this.state = {
             userName:'',
-            value:'',
+            value:0,
             isLoggedIn:'',
             userError:'',
             isSubmit:false,
@@ -19,11 +19,43 @@ class Application extends React.Component<any, any, {param:any}> {
             gpa:0,
             major:'',
             essay:'',
+            companyName:'',
+
+            title:'',
+            postedBy:0,
+            essayRequired:true,
+            scholarshipMajor:'',
+            ethnicity:'',
+            description:'',
+            isOpen:true,
+            id:this.props.id,
+
         }
     };
 
+    componentDidMount = () => {
+        let userInfo = User.getAnyUser();
+        let usersName = userInfo.fname + ' '+userInfo.lname
+        let id = this.props.id
+        fetch('http://localhost:8080/api/getScholarship/'+id, {
+            method:'GET',
+        }).then(res => res.json())
+        .then(res => {
+            //had to do this the most annoying way because the state was not allowing for accessing the item inside of the object.
+            console.log(res.response[0].id);
+            this.setState({title:res.response[0].title,value:res.response[0].value, companyName:res.response[0].companyName,
+            postedBy:res.response[0].postedBy, essayRequired:res.response[0].essayRequired.data[0], scholarshipMajor:res.response[0].major,
+            ethnicity:res.response[0].ethnicity, description:res.response[0].description, isOpen:res.response[0].isOpen.data[0], id:res.response[0].id,
+            userName:usersName, gpa: userInfo.gpa, major:userInfo.major })
+        })
+    }
+
+    
+
     render() {
+        console.log(this.state)
         //const scholarshipID = this.props.scholarshipID; //call to API? should also pass the actual scholarship through the search page onClick Event
+        const scholarshipID = 1;
         const userInfo = User.getAnyUser()
         let userName =  '';
         if(userInfo.userType === 'student'){
@@ -90,10 +122,34 @@ class Application extends React.Component<any, any, {param:any}> {
 
         }
 
+        const publishApplication = async () => {
+            let body = {
+                studentID : userInfo.studentID,
+                scholarshipID:this.props.scholarshipID,
+                essay:this.state.essay,
+            }
+            await fetch('http://localhost:8080/api/createApplication',{
+                method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(body)
+            }).then(res => res.json())
+            .then(res => {
+                //console.log(res)
+                this.setState({isSubmit:true});
+                //maybe do a popup modal here instead and redirect back to search with the same params???
+                functions.directory();
+            })
+            
+
+        }
+
         const handleSubmit = (e:{preventDefault : () => void; }) => {
             e.preventDefault();
             if(validateSubmit()) {
                 this.setState({isSubmit:true})
+                publishApplication();
                 //this currently redirects to the search page.
                 //call API to submit application, await async function before moving back to search page.
             }
@@ -109,18 +165,18 @@ class Application extends React.Component<any, any, {param:any}> {
                 <div className={'row justify-content-md-center'}>
                 <p/>
                     <div className={"col-md-auto"}>
-                        <label>Scholarship Info: &nbsp;</label><input type='text' disabled={true} value={'Some value Here'}></input>
+                        <label>Scholarship Info: &nbsp;</label><input type='text' disabled={true} value={this.state.title}></input>
                     </div>
                     <div className={"col-md-auto"}>
-                        <label>Company: &nbsp;</label><input type='text' disabled={true} value={'Company Name here'}></input>
+                        <label>Company: &nbsp;</label><input type='text' disabled={true} value={this.state.companyName}></input>
                     </div>
                     <div className={"col-md-auto"}>
-                        <label>Value: &nbsp;</label><input type='text' disabled={true} value={'$1000'}></input>
+                        <label>Value: &nbsp;</label><input type='text' disabled={true} value={this.state.value}></input>
                     </div>
                 </div>
                 <p></p>
                 <div className={"row justify-content-md-center"}>
-                    <textarea style={{width:'85%'}}disabled={true} rows={4}>Description</textarea>
+                    <textarea style={{width:'85%'}}disabled={true} rows={4} value={this.state.description}></textarea>
                 </div>
                 <form>
                     <div className={'row justify-content-md-center'}>
