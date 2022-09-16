@@ -49,10 +49,15 @@ class myAccount extends React.Component<any, any, {param:any}> {
                 data=this.state.myApps.map((e:any)=>{
                     let model:any={};
                     model.companyName = e.companyName;
+                    model.title=e.title;
                     model.value=e.value;
                     model.major=e.major;
                     model.description = e.description;
-                    model.isOpen = e.isOpen.data[0];
+                    if(e.isOpen.data[0] === false){
+                        model.isOpen = 'Closed'
+                    }else{
+                        model.isOpen = 'Open'
+                    }
                     if(!e.winner) {
                         if(e.winner === false){
                             model.winner = 'Not Selected'
@@ -74,6 +79,7 @@ class myAccount extends React.Component<any, any, {param:any}> {
                 data = this.state.myScholarships.map((e:any) => {
                 let model:any={};
                 model.id=e.id;
+                model.title=e.title;
                 model.companyName = e.companyName;
                 model.description = e.description;
                 model.ethnicity = e.ethnicity;

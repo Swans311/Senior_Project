@@ -12,6 +12,7 @@ import SignUpStudent from './SignUpStudent';
 const vars = (function () {
 
     let headerStudent = [
+        {key:'title', name:'Title'},
         {key: 'companyName', name: 'Company'},
         {key:'value', name:'Value $'},
         {key:'major',name:'Major'},
@@ -37,6 +38,7 @@ const vars = (function () {
     }
 
     let headerOrganization =  [
+        {key:'title', name:'Title'},
         {key: 'companyName', name: 'Company'},
         {key: 'description', name: 'Description'},
         {key: 'ethnicity', name: 'Ethnicity'},

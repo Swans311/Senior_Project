@@ -221,7 +221,7 @@ exports.getScholarshipBySID = (req,res) => {
 
 exports.createApplication = (req,res) => {
     let data = {'scholarshipID':req.body.scholarshipID, 'studentID':req.body.studentID, 'essay':req.body.essay};
-    let sql = 'INSERT INTO `sdtech`.`application` (`scholarshipID`, `studentID`, `essay`) VALUES ('+req.body.scholarshipID+', '+data.studentID+', '+data.essay+');'
+    let sql = 'INSERT INTO `sdtech`.`application` (`scholarshipID`, `studentID`, `essay`) VALUES ('+req.body.scholarshipID+', '+data.studentID+', "'+data.essay+'");'
     let query = conn.query(sql, data, (err,results)=>{
         if(err) throw err;
         res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));

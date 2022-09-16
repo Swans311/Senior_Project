@@ -16,8 +16,8 @@ function App() {
     return (
         <div className={'bodyApp'} style={{width:'100%',height:'150%'}}>
             <div className="container" id='directory'>
-                <Search/>
-                {/* <Application scholarshipID={1}/> */}
+                {/* <Search/> */}
+                <Application id={1}/>
             </div>
         </div>
         

@@ -12,8 +12,8 @@ class Application extends React.Component<any, any, {param:any}> {
             isLoggedIn:'',
             userError:'',
             isSubmit:false,
-            errName:'Name Must Have Value',
-            errGPA:'Enter Current GPA',
+            errName:'',
+            errGPA:'',
             errMajor:'',
             errEssay:'',
             gpa:0,
@@ -28,7 +28,6 @@ class Application extends React.Component<any, any, {param:any}> {
             ethnicity:'',
             description:'',
             isOpen:true,
-            id:this.props.id,
 
         }
     };
@@ -42,10 +41,10 @@ class Application extends React.Component<any, any, {param:any}> {
         }).then(res => res.json())
         .then(res => {
             //had to do this the most annoying way because the state was not allowing for accessing the item inside of the object.
-            console.log(res.response[0].id);
+            //console.log(res.response[0]);
             this.setState({title:res.response[0].title,value:res.response[0].value, companyName:res.response[0].companyName,
             postedBy:res.response[0].postedBy, essayRequired:res.response[0].essayRequired.data[0], scholarshipMajor:res.response[0].major,
-            ethnicity:res.response[0].ethnicity, description:res.response[0].description, isOpen:res.response[0].isOpen.data[0], id:res.response[0].id,
+            ethnicity:res.response[0].ethnicity, description:res.response[0].description, isOpen:res.response[0].isOpen.data[0],
             userName:usersName, gpa: userInfo.gpa, major:userInfo.major })
         })
     }
@@ -53,17 +52,6 @@ class Application extends React.Component<any, any, {param:any}> {
     
 
     render() {
-        console.log(this.state)
-        //const scholarshipID = this.props.scholarshipID; //call to API? should also pass the actual scholarship through the search page onClick Event
-        const scholarshipID = 1;
-        const userInfo = User.getAnyUser()
-        let userName =  '';
-        if(userInfo.userType === 'student'){
-            userName= userInfo.fname+' '+userInfo.lname
-            this.setState({'userName':userName});
-        } else{
-            //functions.directory();
-        }
 
         const handleChange = (event:any) =>{
             const {name,value} = event.target;
@@ -124,7 +112,7 @@ class Application extends React.Component<any, any, {param:any}> {
 
         const publishApplication = async () => {
             let body = {
-                studentID : userInfo.studentID,
+                studentID : User.getAnyUser().studentID,
                 scholarshipID:this.props.id,
                 essay:this.state.essay,
             }
