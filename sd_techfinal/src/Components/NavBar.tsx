@@ -93,7 +93,7 @@ class SDNav extends React.Component <any, any> {
                                         <li className={'dropDownLink'}style={{listStyleType:'none'}}><a className="dropdown-item" href="#" onClick={LoginOut} style={{backgroundColor:'#333333', color:'#d3d3d3'}}>Logout</a></li>
                                     </ul>
                                     </div>)
-                                :(<button className={'btn btn-primary'} style={{position:'fixed', marginBottom:'5%', float:'right'}} onClick={LoginOut} > <i className='bi bi-person-circle'></i> Login</button>)}
+                                :(<button className={'btn btn-primary'} style={{position:'absolute', marginBottom:'5%', float:'right'}} onClick={LoginOut} > <i className='bi bi-person-circle'></i> Login</button>)}
                             </div>
                         </li>
                     </ul>

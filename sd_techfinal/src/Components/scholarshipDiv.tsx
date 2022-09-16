@@ -20,6 +20,7 @@ class ScholarshipDiv extends React.Component<any, any, {id:any}> {
             description:'',
             isOpen:true,
             id:this.props.id,
+            minGPA:0,
         }
     };
 
@@ -33,20 +34,23 @@ class ScholarshipDiv extends React.Component<any, any, {id:any}> {
             //had to do this the most annoying way because the state was not allowing for accessing the item inside of the object.
             this.setState({title:res.response[0].title,value:res.response[0].value, companyName:res.response[0].companyName,
             postedBy:res.response[0].postedBy, essayRequired:res.response[0].essayRequired.data[0], major:res.response[0].major,
-            ethnicity:res.response[0].ethnicity, description:res.response[0].description, isOpen:res.response[0].isOpen.data[0], id:res.response[0].id })
+            ethnicity:res.response[0].ethnicity, description:res.response[0].description, isOpen:res.response[0].isOpen.data[0], id:res.response[0].id,
+        minGPA:res.response[0].minGPA })
         })
         
         
     }
 
     render() {
-        
+        const userInfo = User.getAnyUser();
         
         
         return (
             <div className={'directory shadow p-3 mb-5 bg-white rounded mx-auto'} style={{height:'fit-content'}}>
                 <div style={{float:'right'}}>
-                    <button className={'btn btn-outline-success'} onClick={()=>functions.newApp(this.state.id)}>Apply</button>
+                    {User.getIsLoggedIn() ? (this.state.isOpen ? (<button className={'btn btn-outline-success'} onClick={()=>functions.newApp(this.state.id) }>Apply</button>) : (
+                        <button className={'btn btn-outline-danger'} disabled={true}>CLOSED</button>)) : ''}
+                    
                 </div>
                 <div className={'row justify-content-md-center'}>
                     <div className={"col-md-auto"}>
@@ -59,6 +63,9 @@ class ScholarshipDiv extends React.Component<any, any, {id:any}> {
                     <div className={"col-md-auto"}>
                         <label>Value: ${this.state.value}</label>
                         {/* <label>Value: ${scholarship.value}</label> */}
+                    </div>
+                    <div className={"col-md-auto"}>
+                        <label>Min GPA Required: {this.state.minGPA}</label>
                     </div>
                     <div className={"col-md-auto"}>
                         <label>{this.state.essayRequired ? (<i className={'bi bi-check-square'} style={{color:'green'}}></i>) : (<i className={'bi bi-x-square'} style={{color:'red'}}></i>)} Essay Required</label>

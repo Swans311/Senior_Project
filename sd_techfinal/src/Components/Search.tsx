@@ -12,7 +12,7 @@ class Search extends React.Component<any, any, {param:any}> {
         this.state = {
             company:[],
             value:0,
-            gpa:0,
+            gpa:0.0,
             companyID:0,
             major:'',
             isLoggedIn:'',
@@ -44,10 +44,10 @@ class Search extends React.Component<any, any, {param:any}> {
         const handleChange = (event:any) => {
             const {name,value} = event.target;
             if(name === 'gpa'){
-                this.setState({gpa:value})
+                this.setState({gpa:parseFloat(value)})
             }
             if(name==='value'){
-                this.setState({value:value})
+                this.setState({value:parseFloat(value)})
             }
             if(name==='company'){
                 this.setState({companyID:value})
@@ -59,7 +59,7 @@ class Search extends React.Component<any, any, {param:any}> {
 
         const handleSubmit = (e:{preventDefault : () => void; }) => {
             e.preventDefault();
-            functions.search(this.state.companyID,this.state.value, this.state.gpa, this.state.major )
+            functions.search(this.state.companyID,this.state.value, this.state.major, this.state.gpa )
         }
 
 
@@ -70,10 +70,6 @@ class Search extends React.Component<any, any, {param:any}> {
             <div className={'directory2'}>
                 <form>
                     {User.getIsLoggedIn() ?(<div><h2>Search</h2><h6>Hello {usersName}</h6></div>) : (<h1>Search</h1>)}
-                    <div className={'form-group'} style={{float:'right', width:'40%'}}>
-                        <label >Major</label><br/>
-                        <input className={'form-control'} name={'major'} type={'text'} placeholder={'Major'} value={this.state.major} onChange={handleChange} />
-                    </div>
                     <div className={'form-group'} style={{float:'left', width:'40%'}}>
                         <label >Min Value $</label><br/>
                         <input className={'form-control'} name={'value'} type={'number'} step={50} placeholder={'Scholarship Value $'} value={this.state.value} onChange={handleChange}/>

@@ -125,7 +125,7 @@ class Application extends React.Component<any, any, {param:any}> {
         const publishApplication = async () => {
             let body = {
                 studentID : userInfo.studentID,
-                scholarshipID:this.props.scholarshipID,
+                scholarshipID:this.props.id,
                 essay:this.state.essay,
             }
             await fetch('http://localhost:8080/api/createApplication',{

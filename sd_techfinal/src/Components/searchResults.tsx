@@ -25,26 +25,59 @@ class SearchResults extends React.Component<any, any, {param:any}> {
     };
 
     componentDidMount = () => {
+        let scholarshipsLocal:any = [];
+        let params = this.props.param
         fetch('http://localhost:8080/api/allScholarships', {
             method:'GET',
         }).then(res => res.json())
         .then(res => {
-            this.setState({scholarships:res.response})
-        })
-        const params = this.props.param
-        if(params.input){
+            scholarshipsLocal = res.response
             let searchedScholarship:any;
-            // this.state.scholarships.major === params.input || this.state.scholarships.value >= params.input && params.input >=5 || 
-            //this.state.scholarships.gpa >= params.input && params.input <=4 || this.state.scholarships.companyName === params.input
-            if(params.input >= 0 && params.input<=4){
-                searchedScholarship = this.state.scholarships.filter((scholarship:any) => scholarship.minGPA <= params.input)
+            if(params.company){
+                params.company = parseInt(params.company)
+                params.value = parseInt(params.value)
+                params.gpa = parseFloat(params.gpa)
+                params.major = params.major.toLowerCase()
             }
-            //searchedScholarship = this.state.scholarships.filter()
-            console.log(searchedScholarship)
-            this.setState({searchedScholarship:searchedScholarship})
-        }else{
-            //check through all of the options, i.e. value, company name, major, or gpa
-        }
+            
+            if(params.company > 0){
+                searchedScholarship = scholarshipsLocal.filter((scholarship: {minGPA:number, value:number, major:string, postedBy:number}) => scholarship.postedBy === params.company);
+                searchedScholarship = searchedScholarship.filter((scholarship:{minGPA:number, value:number, major:string}) => scholarship.value >= params.value);
+                searchedScholarship = searchedScholarship.filter((scholarship:{minGPA:number, value:number, major:string}) => scholarship.minGPA >= params.gpa);
+                if(params.major!=''){
+                    searchedScholarship = searchedScholarship.filter((scholarship:{minGPA:number, value:number, major:string}) => scholarship.major.includes(params.major));
+                }
+                //scholarship.minGPA >= params.gpa && scholarship.major.toLowerCase().includes(params.major.toLowerCase()) && scholarship.value >= params.value && 
+            }
+            else if(params.company === 0 ){
+                //in this situation we don't need to search for the company...
+                searchedScholarship = scholarshipsLocal.filter((scholarship: {minGPA:number, value:number, major:string}) => scholarship.minGPA >= params.gpa && scholarship.value >= params.value)
+                this.setState({scholarships:searchedScholarship})
+            }
+            else{
+                if(params >= 0 && params<=4){ //GPA CHECK
+                    searchedScholarship = scholarshipsLocal.filter((scholarship: { minGPA: number; }) => scholarship.minGPA <= params)
+                }
+                else if (params >=50){//value
+                    searchedScholarship = scholarshipsLocal.filter((scholarship:{value:number;}) => scholarship.value <= params);
+                }
+                else if (params != ''){
+                    params = params.toLowerCase()
+                    searchedScholarship = scholarshipsLocal.filter((scholarship:{companyName:string}) => scholarship.companyName.toLowerCase().includes(params))
+                    if(searchedScholarship.length === 0){
+                        searchedScholarship = scholarshipsLocal.filter((scholarship:{major:string}) =>  scholarship.major.toLowerCase().includes(params));
+                    }
+                }
+                else{
+                    if(!searchedScholarship){
+                        searchedScholarship = scholarshipsLocal;
+                    }
+                }
+                
+                this.setState({scholarships:searchedScholarship})
+            }
+        })
+        
         
         
     }
