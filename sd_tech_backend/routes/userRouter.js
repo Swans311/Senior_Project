@@ -29,4 +29,14 @@ router.post('/createApplication', UserCtrl.createApplication)
 router.get('/getScholarship/:id', UserCtrl.getScholarshipBySID)
 
 
+//all update api requests here
+router.put('/selectWinner', UserCtrl.selectWinner)
+router.put('/rejectAll', UserCtrl.rejectAllApps)
+router.put('/closeScholarship', UserCtrl.closeScholarship)
+router.put('/updateOrg',UserCtrl.updateOrganization)
+router.put('/updateStudent', UserCtrl.updateStudent)
+
+//deletes go here...
+router.delete('/deleteApp/:id', UserCtrl.deleteApplication)
+
 module.exports = router

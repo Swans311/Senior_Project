@@ -21,7 +21,6 @@ class myAccount extends React.Component<any, any, {param:any}> {
                 method:'GET',
             }).then(res => res.json())
             .then(res => {
-                console.log(res)
                 this.setState({myApps:res.response})
             })
         }else{
@@ -47,6 +46,7 @@ class myAccount extends React.Component<any, any, {param:any}> {
             headers = vars.getHeaderStudent()
             if(this.state.myApps){
                 data=this.state.myApps.map((e:any)=>{
+                    console.log(e);
                     let model:any={};
                     model.companyName = e.companyName;
                     model.title=e.title;
@@ -59,14 +59,14 @@ class myAccount extends React.Component<any, any, {param:any}> {
                         model.isOpen = 'Open'
                     }
                     if(!e.winner) {
-                        if(e.winner === false){
-                            model.winner = 'Not Selected'
-                        }
+                        
                         model.winner = 'No Status'
+                        model.withdrawBtn = <button className={'btn btn-outline-danger'} onClick={() => console.log('pop up modal for deleting this application')}>Withdraw</button>
+                    }else if(e.winner.data[0] === 0){
+                        model.winner = 'Not Selected'
                     }else{
                         model.winner = 'WINNER';
                     }
-                    model.withdrawBtn = <button className={'btn btn-outline-danger'} onClick={() => console.log('pop up modal for deleting this application')}>Withdraw</button>
                     return model;
                 })
             }

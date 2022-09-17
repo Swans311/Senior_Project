@@ -1,9 +1,11 @@
 import React from "react";
+import * as ReactDOM from 'react-dom/client';
 import functions from "./functions";
 import SDNav from "./NavBar";
 import User from "./User";
 import DataGrid from 'react-data-grid';
 import vars from "./vars";
+import PopUpModal from './popUpModal';
 
 class ViewApplications extends React.Component<any, any, {param:any}> {
     constructor(props:any){
@@ -11,6 +13,9 @@ class ViewApplications extends React.Component<any, any, {param:any}> {
         this.state = {
             applications:[],
             myScholarship:{},
+            isOpen:false,
+            modalValue:[],
+            modalTitle:'',
         }
     };
 
@@ -28,14 +33,30 @@ class ViewApplications extends React.Component<any, any, {param:any}> {
                 method:'GET',
             }).then(res => res.json())
             .then(res => {
-                console.log(res)
                 this.setState({myScholarship:res.response[0]})
             })
         
         
     }
 
+   
+
     render() {
+        let open = false;
+        const setIsOpen = (e:any) => {
+            if(e.target.value === 'reject'){
+                this.setState({isOpen:!this.state.isOpen,modalValue:e.target.value, modalTitle:'Reject all Remaining Applications.'})
+            }else if(e.target.value){
+                let passable = e.target.value.split(',')
+                this.setState({isOpen:!this.state.isOpen, modalValue:passable, modalTitle:'Reviewing Application'})
+            }
+        }
+
+        const setModal = () => {
+            open = !open;
+            return open;
+        }
+
         //let scholarshipID = this.props.id;
         let myInfo = User.getAnyUser();
         let accountName = '';
@@ -46,12 +67,22 @@ class ViewApplications extends React.Component<any, any, {param:any}> {
         if(this.state.applications){
             //I want to add two buttons to view scholarships and one to close scholarships from this page.
             data = this.state.applications.map((e:any) => {
-                if(e.winner === false){
-                    return null;
-                }
+                
             let model:any=e;
             model.name = e.fname + ' '+ e.lname
-            model.expandBtn = <button className={'btn btn-outline-success'} onClick={()=> console.log('You did it')}>More...</button>
+            //CREATE POP UP MODAL HERE...
+            //[model.name, model.gpa, model.ethnicity, model.major, model.email, model.essay]
+            let passable=[
+                model.name, model.major, model.gpa, model.gender, model.ethnicity, model.essay, model.id
+            ]
+            if(e.winner.data[0] === 0){ //to not return people already rejected
+                model.expandBtn = 'Rejected'
+            }else if(e.winner.data[0] === 1){
+                model.expandBtn = 'Winner'
+            }else{
+                model.expandBtn = <button className={'btn btn-outline-success'} onClick={setIsOpen} name={'model'} value={passable}>More...</button>
+            }
+
             return model;
         })
             
@@ -73,11 +104,13 @@ class ViewApplications extends React.Component<any, any, {param:any}> {
                                 <div>
                                     <p></p>
                                     {data ? (<DataGrid columns={headers} rows={data}></DataGrid>):''}
+                                    {this.state.isOpen? (<PopUpModal open={this.state.isOpen} title={this.state.modalTitle} data={this.state.modalValue} ></PopUpModal>) : ''}
                                 </div>
                                 <hr/>
                             </div>
-                            </div>
-                    </div>
+                            <button  className={'btn btn-danger'} onClick={setIsOpen} value={'reject'}><i className="bi bi-exclamation-triangle"></i> Reject Remaining Applications</button>
+                        </div>
+                </div>
                     
             </div>
             </div>

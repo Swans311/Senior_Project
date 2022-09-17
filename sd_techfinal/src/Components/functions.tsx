@@ -70,7 +70,7 @@ const functions = (function () {
     const myAccount = () =>{
         const dir = document.getElementById('directory') as HTMLElement;
         const content = ReactDOM.createRoot(dir);
-        content.render(<MyAccount/>) //should redirect to home, but that has not yet been built
+        content.render(<MyAccount/>) 
         const dir2 = document.getElementById('directory2') as HTMLElement;
         if(dir2){
             dir2.style.display='none'

@@ -11,13 +11,15 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Scholarship from './Components/scholarship';
 import SearchResults from './Components/searchResults';
 import ScholarshipDiv from './Components/scholarshipDiv';
+import PopUpModal from './Components/popUpModal';
 
 function App() {
     return (
         <div className={'bodyApp'} style={{width:'100%',height:'150%'}}>
             <div className="container" id='directory'>
-                {/* <Search/> */}
-                <Application id={1}/>
+                <Search/>
+                {/* <PopUpModal open={true} title={'Hello Fren'}></PopUpModal> */}
+                {/* <Application id={1}/> */}
             </div>
         </div>
         

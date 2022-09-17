@@ -35,8 +35,15 @@ class Search extends React.Component<any, any, {param:any}> {
     render() {
 
         let usersName=''
+        
         if(User.getAnyUser()){
-            usersName = User.getAnyUser().fname +' '+ User.getAnyUser().lname;
+            let userInfo = User.getAnyUser();
+            if(userInfo.userType === 'student'){
+                usersName = userInfo.fname +' '+ userInfo.lname;
+            }
+            else{
+                usersName = userInfo.accountManager+ ' from '+ userInfo.companyName;
+            }
         }
 
         //this page still needs event handlers

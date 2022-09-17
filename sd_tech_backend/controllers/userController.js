@@ -1,5 +1,6 @@
 const db = require('../config/db.config')
 var mysql = require('mysql');
+const { request } = require('express');
 var conn = mysql.createConnection({
   host:db.HOST,
   user:db.USER,
@@ -194,7 +195,7 @@ exports.getAppsByScholarship = (req,res) => {
 
 exports.getScholarshipsAppliedTo = (req,res) => {
     let data = {id:req.params.id};
-    let sql = 'SELECT * FROM sdtech.application INNER JOIN sdtech.scholarship ON postedBy = scholarshipID  WHERE studentID = '+data.id+';'
+    let sql = 'SELECT * FROM sdtech.application INNER JOIN sdtech.scholarship ON scholarship.id = scholarshipID  WHERE studentID = '+data.id+';'
     let query = conn.query(sql, data, (err,results)=>{
         if(err) throw err;
         res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
@@ -235,6 +236,60 @@ exports.getCompanies = (req,res) => {
         res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
     });
 }
+
+exports.updateStudent = (req,res) => {
+    let data = {'id':req.body.id,'fname':req.body.fname, 'lname':req.body.lname, 'major':req.body.major, 'ethnicity':req.body.ethnicity, 'gpa':req.body.gpa, 'gender':req.body.gender};
+    let sql = 'UPDATE sdtech.studentusers SET `fname` = "'+data.fname+'", `lname` = "'+data.lname+'", `major` = "'+data.major+'", `ethnicity` = "'+data.ethnicity+'", `gpa`='+data.gpa+', `gender` = "'+data.gender+'" WHERE (`studentID` = '+data.id+');';
+    let query = conn.query(sql,data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.updateOrganization = (req,res) => {
+    let data = {'id':req.body.id, 'companyName':req.body.companyName, 'taxID':req.body.taxID, 'accountManager':req.body.accountManager};
+    let sql = 'UPDATE sdtech.organizationusers SET `companyName` = "'+data.companyName+'", `taxID` = '+data.taxID+', `accountManager` = "'+data.accountManager+'" WHERE (organizationID = '+data.id+');'
+    let query = conn.query(sql,data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.closeScholarship = (req,res) => {
+    let data = {'id':req.body.id}
+    let sql = 'UPDATE `sdtech`.`scholarship` SET `isOpen` = 0 WHERE (`id` = '+data.id+');'
+    let query = conn.query(sql,data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.rejectAllApps = (req,res) => {
+    let sql = 'UPDATE sdtech.application SET winner = IF(winner=1 , 1, 0);';
+    let query = conn.query(sql, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.deleteApplication = (req,res) => {
+    let data = {'id':req.params.id}
+    let sql = 'DELETE * FROM sdtech.application WHERE id = '+data.id+';'
+    let query = conn.query(sql,data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
+exports.selectWinner = (req,res)=>{
+    let data = {'id':request.body.id}
+    let sql = 'UPDATE sdtech.application SET winner = 1 WHERE id = '+data.id;
+    let query = conn.query(sql,data, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
 
 //to get all of the information from the student and the user, we also need a method to create the student user as the user account is created.
 //SELECT * FROM sdtech.users

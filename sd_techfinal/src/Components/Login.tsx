@@ -87,8 +87,14 @@ class Login extends React.Component <any, any> {
                 body:JSON.stringify(checkUser)
             }).then(res => res.json())
             .then(res => {
-                usefulData = {id:res.response[0].id, userType:res.response[0].userType}
-                this.setState({apiResponse:usefulData})
+                if(res.response.length > 0){
+                    usefulData = {id:res.response[0].id, userType:res.response[0].userType}
+                    this.setState({apiResponse:usefulData})
+                }
+                else{
+                    this.setState({emailError:'Login Invalid'})
+                    return false;
+                }
             })
             if(usefulData.userType === 'student'){
                 //run an api call to get all student Data
@@ -121,6 +127,7 @@ class Login extends React.Component <any, any> {
             }
             else{
                 this.setState({emailError:'Login Invalid'})
+                return false;
             }
             
             //@ts-ignore
