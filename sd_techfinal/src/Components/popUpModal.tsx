@@ -48,9 +48,49 @@ class PopUpModal extends React.Component<any, any, {any:any}> {
             }
 
 
-            const selectWinner = () => {
+            const selectWinner = async (e:any) => {
+                let name = e.target.name
+                if(name === 'no'){
+                    let body = {'id':this.props.data[6], 'win': 0}
+                    await fetch ('http://localhost:8080/api/selectWinner', {
+                        method:"PUT",
+                        headers: {
+                            'Content-Type':'application/json'
+                        },
+                        body:JSON.stringify(body)})
+                        .then(res=> res.json())
+                        .then(res => {
+                            functions.viewApplications(this.props.id);
+                        })
+                }else{
+                    let body = {'id':this.props.data[6], 'win': 1}
+                    await fetch ('http://localhost:8080/api/selectWinner', {
+                        method:"PUT",
+                        headers: {
+                            'Content-Type':'application/json'
+                        },
+                        body:JSON.stringify(body)})
+                        .then(res=> res.json())
+                        .then(res => {
+                            functions.viewApplications(this.props.id);
+                        })
+                }
                 //fetch request to update to winner
                 //fetch request to update to not winner also.
+            }
+
+            const rejectAll = async () => {
+                let id = this.props.id;
+                await fetch('http://localhost:8080/api/rejectAll', {
+                    method:"PUT",
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify(id)})
+                    .then(res=> res.json())
+                    .then(res => {
+                        functions.viewApplications(this.props.id);
+                    })
             }
             
         return (
@@ -69,11 +109,11 @@ class PopUpModal extends React.Component<any, any, {any:any}> {
                         <h6>Gender: {this.props.data[3]}</h6>
                         <h6>Ethnicity: {this.props.data[4]}</h6>
                         <h6>Essay: </h6>
-                        <textarea disabled={true}>{this.props.data[5]}</textarea>
+                        <textarea disabled={true} style={{width:'100%'}} cols={6}>{this.props.data[5]}</textarea>
                         <p/>
-                        <button className={'btn btn-success'} onClick={selectWinner}>Select Winner</button>
-                        <button className={'btn btn-warning'}>Not Winner</button>
-                        </div>) : (<button className = {'btn btn-danger'} onClick={functions.directory}>Reject All Applications</button>)}
+                        <button className={'btn btn-success'} onClick={selectWinner} name={'yes'}>Select Winner</button>
+                        <button className={'btn btn-warning'} onClick={selectWinner} name={'no'}>Not Winner</button>
+                        </div>) : (<button className = {'btn btn-danger'} onClick={rejectAll}><i className="bi bi-exclamation-triangle"></i>Reject All Applications</button>)}
                         
                     <button onClick={this.setModal} className={'btn btn-outline-success'}>Close</button>
                 </div>

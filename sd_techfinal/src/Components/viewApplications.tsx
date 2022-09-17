@@ -52,10 +52,6 @@ class ViewApplications extends React.Component<any, any, {param:any}> {
             }
         }
 
-        const setModal = () => {
-            open = !open;
-            return open;
-        }
 
         //let scholarshipID = this.props.id;
         let myInfo = User.getAnyUser();
@@ -75,12 +71,13 @@ class ViewApplications extends React.Component<any, any, {param:any}> {
             let passable=[
                 model.name, model.major, model.gpa, model.gender, model.ethnicity, model.essay, model.id
             ]
-            if(e.winner.data[0] === 0){ //to not return people already rejected
-                model.expandBtn = 'Rejected'
-            }else if(e.winner.data[0] === 1){
-                model.expandBtn = 'Winner'
-            }else{
+            if(!e.winner){
                 model.expandBtn = <button className={'btn btn-outline-success'} onClick={setIsOpen} name={'model'} value={passable}>More...</button>
+            }
+            else if(e.winner.data[0] === 0){ //to not return people already rejected
+                model.expandBtn = 'Rejected'
+            }else{
+                model.expandBtn = 'Winner'
             }
 
             return model;
@@ -104,7 +101,7 @@ class ViewApplications extends React.Component<any, any, {param:any}> {
                                 <div>
                                     <p></p>
                                     {data ? (<DataGrid columns={headers} rows={data}></DataGrid>):''}
-                                    {this.state.isOpen? (<PopUpModal open={this.state.isOpen} title={this.state.modalTitle} data={this.state.modalValue} ></PopUpModal>) : ''}
+                                    {this.state.isOpen? (<PopUpModal open={this.state.isOpen} title={this.state.modalTitle} data={this.state.modalValue} id={this.props.id}></PopUpModal>) : ''}
                                 </div>
                                 <hr/>
                             </div>
