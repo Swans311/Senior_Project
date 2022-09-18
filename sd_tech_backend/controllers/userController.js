@@ -222,7 +222,7 @@ exports.getScholarshipBySID = (req,res) => {
 
 exports.createApplication = (req,res) => {
     let data = {'scholarshipID':req.body.scholarshipID, 'studentID':req.body.studentID, 'essay':req.body.essay};
-    let sql = 'INSERT INTO `sdtech`.`application` (`scholarshipID`, `studentID`, `essay`) VALUES ('+req.body.scholarshipID+', '+data.studentID+', "'+data.essay+'");'
+    let sql = 'INSERT INTO `sdtech`.`application` (`scholarshipID`, `studentID`, `essay`) VALUES ('+data.scholarshipID+', '+data.studentID+', "'+data.essay+'");'
     let query = conn.query(sql, data, (err,results)=>{
         if(err) throw err;
         res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
@@ -265,7 +265,8 @@ exports.closeScholarship = (req,res) => {
 }
 
 exports.rejectAllApps = (req,res) => {
-    let sql = 'UPDATE sdtech.application SET winner = IF(winner=1 , 1, 0);';
+    let data = {'id':req.body.id}
+    let sql = 'UPDATE sdtech.application SET winner = IF(winner=1 , 1, 0) WHERE scholarshipID = '+data.id+';';
     let query = conn.query(sql, (err,results)=>{
         if(err) throw err;
         res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
@@ -274,21 +275,25 @@ exports.rejectAllApps = (req,res) => {
 
 exports.deleteApplication = (req,res) => {
     let data = {'id':req.params.id}
-    let sql = 'DELETE * FROM sdtech.application WHERE id = '+data.id+';'
+    let sql = 'DELETE FROM sdtech.application WHERE (`appID` = '+data.id+');'
     let query = conn.query(sql,data, (err,results)=>{
         if(err) throw err;
         res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
     });
 }
 
+
 exports.selectWinner = (req,res)=>{
-    let data = {'id':request.body.id}
-    let sql = 'UPDATE sdtech.application SET winner = 1 WHERE id = '+data.id;
+    let data = {'id':req.body.id, 'win':req.body.win}
+    let sql = 'UPDATE sdtech.application SET winner = '+data.win+' WHERE appID = '+data.id;
     let query = conn.query(sql,data, (err,results)=>{
         if(err) throw err;
         res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
     });
 }
+
+
+
 
 
 //to get all of the information from the student and the user, we also need a method to create the student user as the user account is created.
