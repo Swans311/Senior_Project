@@ -102,7 +102,6 @@ class Scholarship extends React.Component<any, any, {param:any}> {
             body:JSON.stringify(body)
             }).then(res => res.json())
             .then(res => {
-                console.log(res);
                 this.setState({isSubmit:true});
                 functions.directory();
             })

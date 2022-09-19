@@ -51,7 +51,7 @@ class PopUpModal extends React.Component<any, any, {any:any}> {
             const selectWinner = async (e:any) => {
                 let name = e.target.name
                 if(name === 'no'){
-                    let body = {'id':this.props.data[6], 'win': 0}
+                    let body = {'id':this.props.data[0], 'win': 0}
                     await fetch ('http://localhost:8080/api/selectWinner', {
                         method:"PUT",
                         headers: {
@@ -63,7 +63,7 @@ class PopUpModal extends React.Component<any, any, {any:any}> {
                             functions.viewApplications(this.props.id);
                         })
                 }else{
-                    let body = {'id':this.props.data[6], 'win': 1}
+                    let body = {'id':this.props.data[0], 'win': 1}
                     await fetch ('http://localhost:8080/api/selectWinner', {
                         method:"PUT",
                         headers: {
@@ -92,6 +92,11 @@ class PopUpModal extends React.Component<any, any, {any:any}> {
                         functions.viewApplications(this.props.id);
                     })
             }
+
+            let essay:any='';
+            for(let i=6;i<this.props.data.length;i++){
+                essay += this.props.data[i];
+            }
             
         return (
             <Modal
@@ -103,13 +108,13 @@ class PopUpModal extends React.Component<any, any, {any:any}> {
             contentLabel="Example Modal">
                 <div className={'directory'}>
                     <h2 ref={(_subtitle) => (subtitle = _subtitle)}>{this.props.title}</h2>
-                        {this.props.data !== 'reject' ? (<div><h4>Applicant Name: {this.props.data[0]}</h4>
-                        <h6>Major: {this.props.data[1]}</h6>
-                        <h6>GPA: {this.props.data[2]}</h6>
-                        <h6>Gender: {this.props.data[3]}</h6>
-                        <h6>Ethnicity: {this.props.data[4]}</h6>
+                        {this.props.data !== 'reject' ? (<div><h4>Applicant Name: {this.props.data[1]}</h4>
+                        <h6>Major: {this.props.data[2]}</h6>
+                        <h6>GPA: {this.props.data[3]}</h6>
+                        <h6>Gender: {this.props.data[4]}</h6>
+                        <h6>Ethnicity: {this.props.data[5]}</h6>
                         <h6>Essay: </h6>
-                        <textarea disabled={true} style={{width:'100%'}} cols={6}>{this.props.data[5]}</textarea>
+                        <textarea disabled={true} style={{width:'100%'}} cols={6} rows={6}>{essay}</textarea>
                         <p/>
                         <button className={'btn btn-success'} onClick={selectWinner} name={'yes'}>Select Winner</button>
                         <button className={'btn btn-warning'} onClick={selectWinner} name={'no'}>Not Winner</button>

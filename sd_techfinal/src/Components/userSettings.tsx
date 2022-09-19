@@ -126,8 +126,6 @@ class UserSettings extends React.Component<any, any, {param:any}> {
                 }, body:JSON.stringify(newInfo)
             }).then(res => res.json())
             .then(res => {
-                console.log('We finshed the move')
-                console.log(res)
                 functions.myAccount()
                 //this.setState({myScholarships:res.response})
             })
@@ -156,8 +154,8 @@ class UserSettings extends React.Component<any, any, {param:any}> {
             if(validateSubmit()) {
                 this.setState({isSubmit:true})
                 if(userInfo.userType === 'student'){
-                    console.log('pushing to db')
                     pushToDBStudent()
+
                 }else{
                     pushToDBOrg()
                 }
@@ -209,6 +207,7 @@ class UserSettings extends React.Component<any, any, {param:any}> {
                         </div>
                     </div>) : ''}
                     <input type={'submit'} className={'btn btn-success'} onClick = {handleSubmit} style={{margin:'auto'}} />
+                    <p>Any changes will reflect on next login.</p>
                 </form>
             </div>
             </div>

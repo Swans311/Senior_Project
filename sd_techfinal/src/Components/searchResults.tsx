@@ -27,7 +27,7 @@ class SearchResults extends React.Component<any, any, {param:any}> {
     componentDidMount = () => {
         let scholarshipsLocal:any = [];
         let params = this.props.param
-        fetch('http://localhost:8080/api/allScholarships', {
+        fetch('http://localhost:8080/api/allActiveScholarships', {
             method:'GET',
         }).then(res => res.json())
         .then(res => {
@@ -44,9 +44,6 @@ class SearchResults extends React.Component<any, any, {param:any}> {
                 searchedScholarship = scholarshipsLocal.filter((scholarship: {minGPA:number, value:number, major:string, postedBy:number}) => scholarship.postedBy === params.company);
                 searchedScholarship = searchedScholarship.filter((scholarship:{minGPA:number, value:number, major:string}) => scholarship.value >= params.value);
                 searchedScholarship = searchedScholarship.filter((scholarship:{minGPA:number, value:number, major:string}) => scholarship.minGPA >= params.gpa);
-                if(params.major!=''){
-                    searchedScholarship = searchedScholarship.filter((scholarship:{minGPA:number, value:number, major:string}) => scholarship.major.includes(params.major));
-                }
                 //scholarship.minGPA >= params.gpa && scholarship.major.toLowerCase().includes(params.major.toLowerCase()) && scholarship.value >= params.value && 
             }
             else if(params.company === 0 ){
@@ -74,8 +71,8 @@ class SearchResults extends React.Component<any, any, {param:any}> {
                     }
                 }
                 
-                this.setState({scholarships:searchedScholarship})
             }
+            this.setState({scholarships:searchedScholarship})
         })
         
         

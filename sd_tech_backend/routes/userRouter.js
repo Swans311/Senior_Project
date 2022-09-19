@@ -20,6 +20,7 @@ router.get('/studentAppInfo/:id', UserCtrl.getStudentInfoByScholarship)
 
 //for applications and scholarships
 router.get('/allApps', UserCtrl.getAllApplications)
+router.get('/allActiveScholarships', UserCtrl.getAllActiveScholarships)
 router.get('/appsByScholarship', UserCtrl.getApplicationsByScholarshipID)
 router.get('/appsByStudent/:id', UserCtrl.getApplicationsByUserID)
 router.get('/allScholarships', UserCtrl.getAllScholarships)

@@ -149,6 +149,14 @@ exports.getAllScholarships = (req,res) => {
     });
 }
 
+exports.getAllActiveScholarships = (req,res) => {
+    let sql = 'SELECT * FROM sdtech.scholarship where isOpen = 1 ;'
+    let query = conn.query(sql, (err,results)=>{
+        if(err) throw err;
+        res.send(JSON.stringify({'status':200, 'error':null, 'response':results}));
+    });
+}
+
 exports.createScholarship = (req,res) => {
     let data = {'postedBy':req.body.id, 'companyName':req.body.companyName, 'value':req.body.value, 'essayRequired':req.body.essayRequired, 'major':req.body.major, 'ethnicity':req.body.ethnicity, 'description':req.body.description, 'title':req.body.title, 'gpa':req.body.gpa};
     let sql = 'INSERT INTO sdtech.scholarship (`postedBy`, `value`, `essayRequired`, `major`, `ethnicity`, `description`, `companyName`, `title`, `minGPA`) VALUES ("'+data.postedBy+'", '+data.value+', '+data.essayRequired+', "'+data.major+'", "'+data.ethnicity+'", "'+data.description+'", "'+data.companyName+'", "'+data.title+'", '+data.gpa+');'

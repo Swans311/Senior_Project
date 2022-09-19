@@ -48,7 +48,7 @@ class ScholarshipDiv extends React.Component<any, any, {id:any}> {
         return (
             <div className={'directory shadow p-3 mb-5 bg-white rounded mx-auto'} style={{height:'fit-content'}}>
                 <div style={{float:'right'}}>
-                    {User.getIsLoggedIn() ? (this.state.isOpen ? (<button className={'btn btn-outline-success'} onClick={()=>functions.newApp(this.state.id) }>Apply</button>) : (
+                    {User.getIsLoggedIn() && userInfo.userType === 'student'? (this.state.isOpen ? (<button className={'btn btn-outline-success'} onClick={()=>functions.newApp(this.state.id) }>Apply</button>) : (
                         <button className={'btn btn-outline-danger'} disabled={true}>CLOSED</button>)) : ''}
                     
                 </div>

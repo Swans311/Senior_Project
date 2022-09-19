@@ -69,7 +69,7 @@ class ViewApplications extends React.Component<any, any, {param:any}> {
             //CREATE POP UP MODAL HERE...
             //[model.name, model.gpa, model.ethnicity, model.major, model.email, model.essay]
             let passable=[
-                model.name, model.major, model.gpa, model.gender, model.ethnicity, model.essay, model.id
+                model.appID,model.name, model.major, model.gpa, model.gender, model.ethnicity, model.essay
             ]
             if(!e.winner){
                 model.expandBtn = <button className={'btn btn-outline-success'} onClick={setIsOpen} name={'model'} value={passable}>More...</button>

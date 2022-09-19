@@ -144,7 +144,6 @@ class SignUpStudent extends React.Component <any, any> {
                 body:JSON.stringify(student)
             }).then(res => res.json())
             .then(res => {
-                console.log(res);
                 usefulData = {'id':res.response.insertId, 'response': res.response, 'error':res.error}
                 if(!usefulData.error){
                     //set an error. email taken, choose another email or contact an admin for password assistance.
@@ -199,8 +198,6 @@ class SignUpStudent extends React.Component <any, any> {
                     this.setState({'passError':'Password Length Requirement not met'})
                 }
                 if(values.password !== values.repass){
-                    console.log(values.password)
-                    console.log(values.repass)
                     this.setState({'passError':'Passwords do not match', 'repassError':'Passwords do not match'})
                 }
                 else{

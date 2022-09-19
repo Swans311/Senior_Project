@@ -59,8 +59,6 @@ class MyAccountModal extends React.Component<any, any, {any:any}> {
                     })
                 }else{
                     let id = parseInt(this.props.data);
-                    console.log(this.props.data)
-                    console.log(id)
                     await fetch('http://localhost:8080/api/deleteApp/'+id,{
                         method:'DELETE'
                     }).then(res => res.json())

@@ -157,7 +157,6 @@ class OrganizationSignUp extends React.Component <any, any> {
                 body:JSON.stringify(organization)
             }).then(res => res.json())
             .then(res => {
-                console.log(res);
                 usefulData = {'id':res.response.insertId, 'response': res.response, 'error':res.error}
                 if(!usefulData.error){
                     //set an error. email taken, choose another email or contact an admin for password assistance.
@@ -167,7 +166,6 @@ class OrganizationSignUp extends React.Component <any, any> {
                         'accountManager':orgUser.accountManager,
                         'taxID':orgUser.taxID,
                     }
-                    console.log(myOrg)
                     fetch('http://localhost:8080/api/userO', {
                         method:'POST',
                         headers:{
@@ -176,7 +174,6 @@ class OrganizationSignUp extends React.Component <any, any> {
                         body:JSON.stringify(myOrg)
                     }).then(res => res.json())
                     .then(async res => {
-                        console.log(res)
                         if(res.error){
                             this.setState({onameError:'Organization Exists, please get in contact with the correct personnel for assistance'})
                         }
