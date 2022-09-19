@@ -1,7 +1,7 @@
 module.exports = {
     HOST:'localhost',
     USER:'root',
-    PASSWORD:'Google96.',
+    PASSWORD:'####',
     PORT:3306,
     DB:'sdtech',
     dialect:'mysql',
