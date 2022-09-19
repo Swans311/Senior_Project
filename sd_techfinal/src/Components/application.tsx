@@ -41,11 +41,10 @@ class Application extends React.Component<any, any, {param:any}> {
         }).then(res => res.json())
         .then(res => {
             //had to do this the most annoying way because the state was not allowing for accessing the item inside of the object.
-            //console.log(res.response[0]);
             this.setState({title:res.response[0].title,value:res.response[0].value, companyName:res.response[0].companyName,
             postedBy:res.response[0].postedBy, essayRequired:res.response[0].essayRequired.data[0], scholarshipMajor:res.response[0].major,
             ethnicity:res.response[0].ethnicity, description:res.response[0].description, isOpen:res.response[0].isOpen.data[0],
-            userName:usersName, gpa: userInfo.gpa, major:userInfo.major })
+            userName:usersName, gpa: userInfo.gpa, major:userInfo.major, })
         })
     }
 
@@ -180,7 +179,7 @@ class Application extends React.Component<any, any, {param:any}> {
                         </div>
                         <div className={'col-md-auto'} >
                             <label >Major</label><br/>
-                            <input className={'form-control'} type={'text'} placeholder={'Major'} name={'major'} value={this.state.Major} onChange={handleChange}/>
+                            <input className={'form-control'} type={'text'} placeholder={'Major'} name={'major'} value={this.state.major} onChange={handleChange}/>
                             <p>{this.state.errMajor}</p>
                         </div>
                     </div>
