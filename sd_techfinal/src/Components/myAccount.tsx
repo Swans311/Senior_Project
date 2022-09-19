@@ -138,12 +138,6 @@ class myAccount extends React.Component<any, any, {param:any}> {
                                 </div>
                                 <hr/>
                             </div>
-                            <div>
-                                <h5>Something?</h5>
-                            </div>
-                            <p>Here I want to install options to add in options to view specific scholarships here that have been posted by this specific company</p>
-                            <p>I also want to add in a settings button to add in the option to view/change your account info</p>
-                            <p>there should also be an option for organizations to post scholarships directly from this page, but maybe also from the nav bar?</p>
                         </div>
                     </div>
                     {myInfo.userType === 'organization' ? (<div><button className='btn btn-success' onClick={functions.scholarship} ><i className="bi bi-plus-circle"></i> Create New Scholarship</button></div>) : ''}

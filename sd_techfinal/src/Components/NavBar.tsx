@@ -87,8 +87,8 @@ class SDNav extends React.Component <any, any> {
                                     </button>
                                     <ul className={menuClass} style={{zIndex:2}}>
                                         <li className={'dropDownLink'} style={{listStyleType:'none'}}><a className="dropdown-item" href="#" onClick={functions.myAccount} style={{backgroundColor:'#333333', color:'#D3d3d3'}}>My Account</a></li>
-                                        {User.getAnyUser().userType==='student' ? (<li style={{listStyleType:'none'}}><a className="dropdown-item" href="#"  style={{backgroundColor:'#333333', color:'#d3d3d3'}}>My Applications</a></li>) 
-                                        : (<li className={'dropDownLink'} style={{listStyleType:'none'}}><a className="dropdown-item" href="#" style={{backgroundColor:'#333333', color:'#d3d3d3'}}>My Scholarships</a></li>)}
+                                        {User.getAnyUser().userType==='student' ? (<li style={{listStyleType:'none'}}><a className="dropdown-item" onClick={functions.myApps} href="#"  style={{backgroundColor:'#333333', color:'#d3d3d3'}}>My Applications</a></li>) 
+                                        : (<li className={'dropDownLink'} style={{listStyleType:'none'}}><a className="dropdown-item" href="#" onClick={functions.myScholarships} style={{backgroundColor:'#333333', color:'#d3d3d3'}}>My Scholarships</a></li>)}
                                         <li className={'dropDownLink'} style={{listStyleType:'none', backgroundColor:'#333333', color:'#D3d3d3'}} >_________________</li>
                                         <li className={'dropDownLink'}style={{listStyleType:'none'}}><a className="dropdown-item" href="#" onClick={LoginOut} style={{backgroundColor:'#333333', color:'#d3d3d3'}}>Logout</a></li>
                                     </ul>

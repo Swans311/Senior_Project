@@ -9,6 +9,8 @@ import ViewApplications from './viewApplications';
 import UserSettings from './userSettings';
 import Application from './application';
 import SearchResults from './searchResults';
+import MyApplications from './myApplications';
+import MyScholarships from './myScholarships';
 
 //this file will serve to localize the re-routing functions for pages so that they do not need 
 //to be created several thousand times (hyperbole)
@@ -77,6 +79,27 @@ const functions = (function () {
         }
     }
 
+    const myApps = () =>{
+        const dir = document.getElementById('directory') as HTMLElement;
+        const content = ReactDOM.createRoot(dir);
+        content.render(<MyApplications/>) 
+        const dir2 = document.getElementById('directory2') as HTMLElement;
+        if(dir2){
+            dir2.style.display='none'
+        }
+    }
+
+    const myScholarships = () =>{
+        const dir = document.getElementById('directory') as HTMLElement;
+        const content = ReactDOM.createRoot(dir);
+        content.render(<MyScholarships/>) 
+        const dir2 = document.getElementById('directory2') as HTMLElement;
+        if(dir2){
+            dir2.style.display='none'
+        }
+    }
+
+
     const signUpO = () => {
         const dir = document.getElementById('directory') as HTMLElement;
         const content = ReactDOM.createRoot(dir);
@@ -129,6 +152,8 @@ const functions = (function () {
         newApp:newApp,
         search:search,
         navSearch:navSearch,
+        myApps:myApps,
+        myScholarships:myScholarships,
     }
 
 
