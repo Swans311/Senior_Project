@@ -24,7 +24,7 @@ class OrganizationSignUp extends React.Component <any, any> {
             userError:'',
             isSubmit:false,
             emailError:'',
-            passError:'',
+            passError:'Password Required',
             repassError:'',
             acnameError:'Account Manager Name Req.',
             onameError:'Organization Name Req.',

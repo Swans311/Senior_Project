@@ -80,7 +80,7 @@ class PopUpModal extends React.Component<any, any, {any:any}> {
             }
 
             const rejectAll = async () => {
-                let id = this.props.id;
+                let id = {'id':this.props.id};
                 await fetch('http://localhost:8080/api/rejectAll', {
                     method:"PUT",
                     headers: {

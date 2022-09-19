@@ -21,6 +21,7 @@ class SearchResults extends React.Component<any, any, {param:any}> {
             isSubmit:false,
             emailError:'',
             passError:'',
+            error:'',
         }
     };
 
@@ -39,11 +40,18 @@ class SearchResults extends React.Component<any, any, {param:any}> {
                 params.gpa = parseFloat(params.gpa)
                 params.major = params.major.toLowerCase()
             }
-            
+            let error:any='';
             if(params.company > 0){
+                console.log(params)
                 searchedScholarship = scholarshipsLocal.filter((scholarship: {minGPA:number, value:number, major:string, postedBy:number}) => scholarship.postedBy === params.company);
+                if(searchedScholarship.length === 0){
+                    error = 'Company Has no Scholarships.';
+                    searchedScholarship=scholarshipsLocal
+                }
                 searchedScholarship = searchedScholarship.filter((scholarship:{minGPA:number, value:number, major:string}) => scholarship.value >= params.value);
                 searchedScholarship = searchedScholarship.filter((scholarship:{minGPA:number, value:number, major:string}) => scholarship.minGPA >= params.gpa);
+                console.log(searchedScholarship.length)
+                
                 //scholarship.minGPA >= params.gpa && scholarship.major.toLowerCase().includes(params.major.toLowerCase()) && scholarship.value >= params.value && 
             }
             else if(params.company === 0 ){
@@ -72,7 +80,7 @@ class SearchResults extends React.Component<any, any, {param:any}> {
                 }
                 
             }
-            this.setState({scholarships:searchedScholarship})
+            this.setState({scholarships:searchedScholarship, error:error})
         })
         
         
@@ -98,6 +106,7 @@ class SearchResults extends React.Component<any, any, {param:any}> {
                 <SDNav/>
                 <div className={'directory'}>
                     <h4>Search Results</h4>
+                    <p>{this.state.error}</p>
                     <div className={'directory2'}>
                         {this.state.scholarships.map((e:any)=>{
                             return <ScholarshipDiv id={e.id} style={{width:'80%'}}></ScholarshipDiv>

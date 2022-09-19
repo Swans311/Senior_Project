@@ -21,7 +21,7 @@ class SignUpStudent extends React.Component <any, any> {
             userError:'',
             isSubmit:false,
             emailError:'Email Required',
-            passError:'',
+            passError:'Password Required',
             repassError:'',
             fnameError:'First Name Required',
             lnameError:'Last Name Required',
